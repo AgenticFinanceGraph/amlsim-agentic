@@ -46,7 +46,9 @@ const instByMinter = new Map(); for (const p of patterns) if (p.minter) { if (!i
 const hourOf = (d) => new Date(d).toISOString().slice(0, 13);
 
 const t0 = Date.now();
-const found = { mint_burst: await D.mintBursts(pool), retry_storm: await D.retryStorms(pool), drain_pattern: await D.drains(pool, { asOf }), uri_timeout_streak: await D.probeStreaks(pool) };
+/* no cap: a validation must see every row the rule produces, not the hourly run's first hundred */
+const BIG = 1000000;
+const found = { mint_burst: await D.mintBursts(pool, { limit: BIG }), retry_storm: await D.retryStorms(pool, { limit: BIG }), drain_pattern: await D.drains(pool, { asOf, limit: BIG }), uri_timeout_streak: await D.probeStreaks(pool, { limit: BIG }) };
 const detectorMs = Date.now() - t0;
 
 /* ---- match detections to instances ---- */
@@ -104,12 +106,12 @@ async function candidate(name, kind, rows, matchFn, { target = null } = {}) {
   candidates[name] = { kind, expected: tp + fn, hit: tp, miss: fn, false_alarm: fp, unexpected_catch: o.unexpected_catch.length, precision: tp + fp ? +(tp / (tp + fp)).toFixed(3) : null, recall: tp + fn ? +(tp / (tp + fn)).toFixed(3) : null, detections: rows.length,
     unexpected_catches_by_shape: o.unexpected_catch.reduce((m, x) => (m[x.typology] = (m[x.typology] || 0) + 1, m), {}), false_alarms_by_shape: o.false_alarm.reduce((m, x) => (m[x.typology] = (m[x.typology] || 0) + 1, m), {}), detail: o };
 }
-if (D.retryStormsSliding) await candidate("retry_storm_sliding_10min", "retry_storm", await D.retryStormsSliding(pool), (r) => { const p = (instByMain.get(r.actor_id) || []).find((x) => x.storm_to === r.to_id) || null; return { p, detail: { actor: r.actor_id, counterparty: r.to_id, payments: r.n, typology: p ? p.typology : "periodical" } }; });
-if (D.mintBurstsSliding) await candidate("mint_burst_sliding_60min", "mint_burst", await D.mintBurstsSliding(pool), (r) => ({ p: (instByMinter.get(r.minted_to) || [])[0] || null, detail: { minter: r.minted_to, registrations: r.n } }));
-if (D.slowDrains) await candidate("slow_drain_72h_sum", "drain_pattern", await D.slowDrains(pool, { asOf }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
+if (D.retryStormsSliding) await candidate("retry_storm_sliding_10min", "retry_storm", await D.retryStormsSliding(pool, { limit: BIG }), (r) => { const p = (instByMain.get(r.actor_id) || []).find((x) => x.storm_to === r.to_id) || null; return { p, detail: { actor: r.actor_id, counterparty: r.to_id, payments: r.n, typology: p ? p.typology : "periodical" } }; });
+if (D.mintBurstsSliding) await candidate("mint_burst_sliding_60min", "mint_burst", await D.mintBurstsSliding(pool, { limit: BIG }), (r) => ({ p: (instByMinter.get(r.minted_to) || [])[0] || null, detail: { minter: r.minted_to, registrations: r.n } }));
+if (D.slowDrains) await candidate("slow_drain_72h_sum", "drain_pattern", await D.slowDrains(pool, { asOf, limit: BIG }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
 if (D.drainsEmptied) {
   const bal = new Map((await pool.query("SELECT tx, wallet, usd::float8 AS usd FROM sim_balance_before")).rows.map((r) => [r.tx + "|" + r.wallet, r.usd]));
-  await candidate("drain_emptied_80pct", "drain_pattern", await D.drainsEmptied(pool, { asOf, balanceAt: async (w, t, tx) => bal.get(tx + "|" + w) ?? null }),
+  await candidate("drain_emptied_80pct", "drain_pattern", await D.drainsEmptied(pool, { asOf, balanceAt: async (w, t, tx) => bal.get(tx + "|" + w) ?? null, limit: BIG }),
     (r) => { const p = inst.get(txInst.get(r.tx)) || null; return { p, detail: { actor: r.actor_id, tx: r.tx, usd: +Number(r.amount_usd).toFixed(2), fraction_of_balance: r.fraction_of_balance, typology: p ? p.typology : txTyp.get(r.tx) } }; });
 }
 /* layering: the detectors that did not exist before the synthetic data did */

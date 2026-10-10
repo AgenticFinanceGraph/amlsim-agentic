@@ -124,7 +124,13 @@ Two of these were checked against the live ledger the same day, read-only. A sli
 
 Synthetic data measures the rules, not the chain. The figures say how a detector behaves on shapes with known answers, and nothing about how often those shapes occur in real data.
 
-Scale: `config/afg-20k.json` (22,584 agents, 652,898 transfers) generates in about 2.5 minutes and peaks at 2.7 GB of memory, because the generator keeps every transfer in memory before writing. Larger runs need a streaming writer.
+### At ten times the size
+
+`config/afg-20k.json`, seed 20261011: 22,894 agents, 652,664 transfers, 721 injected patterns (`examples/afg-20k/report.md`). The picture holds. The live drain rule caught 100 of 100 drains with 67 purchase-shaped false alarms (60% precision); the balance test caught 100 of 100 with none. The sliding window caught all 60 storms and all 30 hour-straddling ones. Layering: cycles 17 of 25 with 2 false alarms, scatter-gather 15 of 15, gather-scatter 13 of 15, same-amount fan-in and fan-out 20 of 20 each. The slow-drain sum rule caught all 39 slow drains that survived generation but raised 117 false alarms, 46 of them subscriptions (`periodical`), so on its own it is not a rule; with the balance test it may be.
+
+The scale run also found a silent cap: the live queries end with `LIMIT 100`, and at 132 drain-shaped rows the oldest 32 drains fell off the list without a word. The functions now take a `limit` and the validator removes it; the hourly run keeps 100 and should warn when it fills, as the mint-burst query already does.
+
+Generation of the 20k set takes about 2.5 minutes and peaks at 2.9 GB of memory, because the generator keeps every transfer in memory before writing; loading takes about a minute, the detectors under two seconds. Larger runs need a streaming writer.
 
 ## Differences from AMLSim worth knowing
 
