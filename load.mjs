@@ -29,6 +29,7 @@ await pool.query(readFileSync(resolve(HERE, "schema.sql"), "utf8"));
 /* the generator's books: what each paying wallet held just before each payment (the validator's
    stand-in for an on-chain balance lookup) */
 await pool.query("CREATE TABLE IF NOT EXISTS sim_balance_before (tx text NOT NULL, wallet text NOT NULL, usd numeric NOT NULL, PRIMARY KEY (tx, wallet))");
+await pool.query("ALTER TABLE sim_balance_before ADD COLUMN IF NOT EXISTS usd_after numeric");
 await pool.query("TRUNCATE actors, bindings, money_events, probes, registrations, wallets, sim_balance_before");
 
 async function insert(table, cols, data, mapper) {
@@ -62,7 +63,7 @@ for (const t of transfers) {
   if (t.to_agent_id) { const r = byId.get(t.to_agent_id); events.push(["evt_sim_" + t.transfer_id + "e", t.to_agent_id, "EARN", rail, CHAIN + ":" + t.from_wallet, CHAIN + ":" + t.to_wallet, t.amount, t.token, t.tx, t.timestamp, "onchain", "amlsim-agentic", new Date(t.timestamp) < new Date(r.registered_at), t.is_routing, t.timestamp, logIndex]); }
 }
 out.money_events = await insert("money_events", ["event_id", "actor_id", "kind", "rail", "from_caip10", "to_id", "amount_usd", "asset", "tx", "block_time", "confidence", "source", "pre_registration", "pass_through", "pass_checked_at", "log_index"], events, (r) => r);
-out.balances = await insert("sim_balance_before", ["tx", "wallet", "usd"], transfers.filter((t) => t.from_agent_id && t.balance_before != null), (t) => [t.tx, CHAIN + ":" + t.from_wallet, t.balance_before]);
+out.balances = await insert("sim_balance_before", ["tx", "wallet", "usd", "usd_after"], transfers.filter((t) => t.from_agent_id && t.balance_before != null), (t) => [t.tx, CHAIN + ":" + t.from_wallet, t.balance_before, t.balance_after]);
 out.probes = await insert("probes", ["actor_id", "endpoint", "ok", "http_status", "protocol", "rtt_ms", "error_class", "at"], probes, (p) => [p.actor_id, p.endpoint, p.ok, p.http_status, p.protocol, p.rtt_ms, p.error_class, p.at]);
 
 /* loader fidelity: counted spending in the tables must equal the generator's own total */

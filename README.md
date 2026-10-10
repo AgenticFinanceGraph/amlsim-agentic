@@ -130,7 +130,11 @@ Synthetic data measures the rules, not the chain. The figures say how a detector
 
 The scale run also found a silent cap: the live queries end with `LIMIT 100`, and at 132 drain-shaped rows the oldest 32 drains fell off the list without a word. The functions now take a `limit` and the validator removes it; the hourly run keeps 100 and should warn when it fills, as the mint-burst query already does.
 
-Generation of the 20k set takes about 2.5 minutes and peaks at 2.9 GB of memory, because the generator keeps every transfer in memory before writing; loading takes about a minute, the detectors under two seconds. Larger runs need a streaming writer.
+Generation of the 20k set takes about 2.5 minutes. It peaked at 2.9 GB of memory when the output files were built as single strings; the writers now stream in chunks of 5,000 lines and the peak is 1.8 GB with byte-identical output. Loading takes about a minute, the detectors under two seconds.
+
+### Checked against the live ledger
+
+The same candidate functions, run read-only over everything the ledger has stored since it began (10 October 2026): of 47 drain-shaped payments, 39 took 80 to 100 percent of what the wallet held at the block before, most of them the balance to the cent, and 8 left most of it. A sliding ten-minute window finds 40 storm detections where the calendar-hour rule finds 10. Across 314,826 agent-to-agent payments there is no cycle, no scatter-gather and no gather-scatter, only ten same-amount fan-outs. And one synthetic result did not survive contact with the chain: the slow-drain test "the wallet is left near empty after the window" flags 130 of 156 live windows, because agent hot wallets are funded as they pay and run near zero as a matter of course, while the synthetic population held balances. The generator needs a hot-wallet model before that rule is measured again; until then it is not a rule.
 
 ## Differences from AMLSim worth knowing
 

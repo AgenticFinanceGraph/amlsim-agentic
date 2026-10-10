@@ -110,9 +110,16 @@ if (D.retryStormsSliding) await candidate("retry_storm_sliding_10min", "retry_st
 if (D.mintBurstsSliding) await candidate("mint_burst_sliding_60min", "mint_burst", await D.mintBurstsSliding(pool, { limit: BIG }), (r) => ({ p: (instByMinter.get(r.minted_to) || [])[0] || null, detail: { minter: r.minted_to, registrations: r.n } }));
 if (D.slowDrains) await candidate("slow_drain_72h_sum", "drain_pattern", await D.slowDrains(pool, { asOf, limit: BIG }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
 if (D.drainsEmptied) {
-  const bal = new Map((await pool.query("SELECT tx, wallet, usd::float8 AS usd FROM sim_balance_before")).rows.map((r) => [r.tx + "|" + r.wallet, r.usd]));
-  await candidate("drain_emptied_80pct", "drain_pattern", await D.drainsEmptied(pool, { asOf, balanceAt: async (w, t, tx) => bal.get(tx + "|" + w) ?? null, limit: BIG }),
+  const bal = new Map((await pool.query("SELECT tx, wallet, usd::float8 AS usd, usd_after::float8 AS usd_after FROM sim_balance_before")).rows.map((r) => [r.tx + "|" + r.wallet, r]));
+  const balanceAt = async (w, t, tx, asset, { after = false } = {}) => { const r = bal.get(tx + "|" + w); return r ? (after ? r.usd_after : r.usd) : null; };
+  await candidate("drain_emptied_80pct", "drain_pattern", await D.drainsEmptied(pool, { asOf, balanceAt, limit: BIG }),
     (r) => { const p = inst.get(txInst.get(r.tx)) || null; return { p, detail: { actor: r.actor_id, tx: r.tx, usd: +Number(r.amount_usd).toFixed(2), fraction_of_balance: r.fraction_of_balance, typology: p ? p.typology : txTyp.get(r.tx) } }; });
+}
+if (D.slowDrainsEmptied) {
+  const bal = new Map((await pool.query("SELECT tx, wallet, usd::float8 AS usd, usd_after::float8 AS usd_after FROM sim_balance_before")).rows.map((r) => [r.tx + "|" + r.wallet, r]));
+  const balanceAt = async (w, t, tx, asset, { after = false } = {}) => { const r = bal.get(tx + "|" + w); return r ? (after ? r.usd_after : r.usd) : null; };
+  await candidate("slow_drain_72h_emptied_80pct", "drain_pattern", await D.slowDrainsEmptied(pool, { asOf, balanceAt, limit: BIG }),
+    (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, fraction_of_balance: r.fraction_of_balance, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
 }
 /* layering: the detectors that did not exist before the synthetic data did */
 const LY = await import(pathToFileURL(resolve(pulse, "lib/layering.mjs")).href).catch(() => null);
@@ -123,8 +130,8 @@ if (LY) {
   const withMembers = patterns.filter((p) => p.participant_agent_ids.length >= 3);
   const matchAny = (det) => { let best = null, bo = 0; for (const p of withMembers) { const o = overlap(det, p); if (o > bo) { bo = o; best = p; } } return bo >= 0.5 ? best : null; };
   layering = { edges: edges.length, load_ms: Date.now() - t1, ms: {} };
-  for (const [name, fn, typ] of [["cycle", LY.cycles, "cycle"], ["scatter_gather", LY.scatterGather, "scatter_gather"], ["gather_scatter", LY.gatherScatter, "gather_scatter"], ["fan_in_same_amount", LY.fanInSameAmount, "fan_in"], ["fan_out_same_amount", LY.fanOutSameAmount, "fan_out"]]) {
-    const s = Date.now(); const rows = fn(edges, {}); layering.ms[name] = Date.now() - s;
+  for (const [name, fn, typ, opts] of [["cycle", LY.cycles, "cycle", {}], ["cycle_wide", LY.cycles, "cycle", { maxOut: 200, keep: 0.4 }], ["scatter_gather", LY.scatterGather, "scatter_gather", {}], ["gather_scatter", LY.gatherScatter, "gather_scatter", {}], ["fan_in_same_amount", LY.fanInSameAmount, "fan_in", {}], ["fan_out_same_amount", LY.fanOutSameAmount, "fan_out", {}]]) {
+    const s = Date.now(); const rows = fn(edges, { limit: BIG, ...opts }); layering.ms[name] = Date.now() - s;
     await candidate("layering_" + name, typ, rows, (r) => { const p = matchAny(r); return { p, detail: { main: r.main, members: r.participants.length, usd: r.usd, typology: p ? p.typology : "normal" } }; }, { target: typ });
   }
 }
@@ -150,6 +157,53 @@ if (PM) {
     ["a payee is not its own look-alike", PM.lookalike(B, ix, new Date(5000)) === null]
   ];
   poisoning = { cases: cases.length, agree: cases.filter((c) => c[1]).length, detail: cases.map(([n, ok]) => ({ case: n, ok })) };
+
+  /* end to end: synthetic wallets with payee histories, planted look-alikes, then a payment. The
+     rule under test is the worker's: a LOSS is a real-token payment to an address that was planted
+     in that wallet's history first (by a zero-value real-token transfer, or a fake-symbol transfer),
+     where the planted address is a look-alike of a real payee. Seeded, so the cases repeat. */
+  const { makeRng } = await import(pathToFileURL(resolve(HERE, "lib/rng.mjs")).href);
+  const rng = makeRng(777), hex = (n) => rng.hex(n);
+  const addr = () => "0x" + hex(40);
+  const lookalikeOf = (a, kind) => (kind === "f4l4" ? a.slice(0, 6) + hex(32) + a.slice(-4) : "0x" + hex(36) + a.slice(-4));
+  const e2e = { wallets: 0, planted: 0, losses_expected: 0, losses_found: 0, false_losses: 0, missed: 0, detail: [] };
+  for (let w = 0; w < 300; w++) {
+    const payees = Array.from({ length: rng.int(2, 8) }, () => addr());
+    const first = new Map(payees.map((p, i) => [p, 1000 + i * 1000]));
+    const ix2 = PM.payeeIndex(payees, first);
+    const history = [];                                                  // {t, to, token, value, fake}
+    const victimPays = [];                                               // real payments after the plants
+    const scenario = rng.pick(["f4l4_zero", "l4_fake", "f4l4_fake", "clean_new_payee", "l4_real_token_only", "payee_again"]);
+    const target = rng.pick(payees);
+    let plantedAddr = null, expectLoss = false;
+    if (scenario === "f4l4_zero") { plantedAddr = lookalikeOf(target, "f4l4"); history.push({ t: 20000, to: plantedAddr, real: true, value: 0n, fake: false }); expectLoss = true; }
+    if (scenario === "l4_fake") { plantedAddr = lookalikeOf(target, "l4"); history.push({ t: 20000, to: plantedAddr, real: false, value: 50n, fake: true }); expectLoss = true; }
+    if (scenario === "f4l4_fake") { plantedAddr = lookalikeOf(target, "f4l4"); history.push({ t: 20000, to: plantedAddr, real: false, value: 50n, fake: true }); expectLoss = true; }
+    if (scenario === "l4_real_token_only") { plantedAddr = lookalikeOf(target, "l4"); history.push({ t: 20000, to: plantedAddr, real: true, value: 0n, fake: false }); expectLoss = false; }   // last-4 alone needs a fake symbol
+    if (scenario === "clean_new_payee") { plantedAddr = addr(); expectLoss = false; }
+    if (scenario === "payee_again") { plantedAddr = target; expectLoss = false; }
+    victimPays.push({ t: 30000, to: plantedAddr, usd: rng.rounded(10, 200) });
+    /* the worker's classification, step by step */
+    const plants = new Map();
+    for (const h of history) {
+      const lk = PM.lookalike(h.to, ix2, new Date(h.t));
+      let kind = null;
+      if (h.real) { if (h.value === 0n) kind = lk ? "zero_value" : null; }
+      else if (lk && h.fake) kind = "fake_symbol";
+      else if (lk && lk.m === "f4l4") kind = "lookalike_token";
+      if (kind && lk && (lk.m === "f4l4" || h.fake)) plants.set(h.to, { t: h.t, kind, of: lk.r });
+    }
+    e2e.wallets++; e2e.planted += plants.size;
+    for (const p of victimPays) {
+      const planted = plants.get(p.to);
+      const isLoss = Boolean(planted && planted.t < p.t && !ix2.set.has(p.to));
+      if (expectLoss) e2e.losses_expected++;
+      if (isLoss && expectLoss) e2e.losses_found++;
+      else if (isLoss && !expectLoss) { e2e.false_losses++; e2e.detail.push({ scenario, verdict: "false loss" }); }
+      else if (!isLoss && expectLoss) { e2e.missed++; e2e.detail.push({ scenario, verdict: "missed" }); }
+    }
+  }
+  poisoning.end_to_end = e2e;
 }
 
 /* ---- per typology ---- */
@@ -233,6 +287,7 @@ for (const c of passthrough.detail) L.push("| " + c.case + " | " + c.expected + 
 if (poisoning) {
   L.push("", "## Address-poisoning matcher", "", "Production `norm()` and `lookalike()` over symbols and addresses with known answers: " + poisoning.agree + " of " + poisoning.cases + " cases agree.", "", "| case | ok |", "|---|---|");
   for (const c of poisoning.detail) L.push("| " + c.case + " | " + (c.ok ? "yes" : "NO") + " |");
+  if (poisoning.end_to_end) { const e = poisoning.end_to_end; L.push("", "End to end, " + e.wallets + " synthetic wallets with planted look-alikes (seeded): " + e.losses_found + " of " + e.losses_expected + " losses found, " + e.false_losses + " false losses, " + e.missed + " missed. The rule: a real-token payment to an address planted in the wallet's history first, where the plant is a look-alike of a real payee (first 4 + last 4, or last 4 with a fake-symbol token)."); }
 }
 L.push("", "## Fidelity", "", "Counted spending in the loaded tables: $" + fidelity.counted_spending_tables.toLocaleString("en-US") + "; the generator's own total: $" + fidelity.counted_spending_generator.toLocaleString("en-US") + " (" + (fidelity.match ? "match" : "MISMATCH") + "), " + fidelity.counted_events.toLocaleString("en-US") + " counted payments.", "");
 writeFileSync(resolve(dir, "report.md"), L.join("\n"));
