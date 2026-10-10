@@ -1,0 +1,13 @@
+amlsim-agentic
+Copyright 2026 Agentic Finance Graph (agenticfinancegraph.com)
+
+Licensed under the Apache License, Version 2.0.
+
+This work adapts the design and pattern definitions of IBM AMLSim
+(https://github.com/IBM/AMLSim), Copyright IBM Corp., licensed under the
+Apache License, Version 2.0. The typologies fan_in, fan_out, cycle, bipartite,
+stack, random, scatter_gather and gather_scatter, the normal behaviour models
+single, fan_out, fan_in, forward, mutual and periodical, the four transaction
+schedules and the parameter vocabulary (alertPatterns.csv, normalModels.csv,
+conf.json) follow AMLSim; the code is a rewrite for agent wallets and shares
+no source with it.

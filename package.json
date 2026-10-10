@@ -1,0 +1,16 @@
+{
+  "name": "amlsim-agentic",
+  "version": "0.1.0",
+  "description": "Labelled synthetic payment graphs for AI-agent wallets, adapted from IBM AMLSim, for testing anomaly detectors against known answers.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "generate": "node generate.mjs config/afg-2k.json out/afg-2k",
+    "load": "node load.mjs out/afg-2k",
+    "validate": "node validate.mjs out/afg-2k --pulse examples/afg-detectors"
+  },
+  "dependencies": { "pg": "^8.13.0" },
+  "keywords": ["amlsim", "synthetic-data", "anomaly-detection", "ai-agents", "erc-8004", "x402", "base", "usdc", "agent-payments"],
+  "homepage": "https://agenticfinancegraph.com",
+  "license": "Apache-2.0"
+}
