@@ -30,10 +30,11 @@ const DAY = 86400000;
 const byKey = (edges, key) => { const m = new Map(); for (const e of edges) { const k = key(e); if (!m.has(k)) m.set(k, []); m.get(k).push(e); } return m; };
 
 /* ---- cycle: money leaves an agent and comes back to it through two or more others ----
-   A walk forward in time: each hop later than the one before, inside the window, and each hop
+   A walk forward in time (up to 12 hops: AMLSim cycles have up to 10 members, and a limit of 8 missed
+   every 9- and 10-member cycle in the 10 Oct validation): each hop later than the one before, inside the window, and each hop
    carrying at least `keep` of the previous one (money mostly continuing, as AMLSim's margin models
    it). Out-degree is capped so a hub with thousands of payees does not explode the search. */
-export function cycles(edges, { maxLen = 8, windowDays = 14, keep = 0.5, maxOut = 40, minUsd = 20, limit = 200 } = {}) {
+export function cycles(edges, { maxLen = 12, windowDays = 14, keep = 0.5, maxOut = 40, minUsd = 20, limit = 200 } = {}) {
   const out = byKey(edges.filter((e) => e.usd >= minUsd), (e) => e.from_actor);
   for (const [, list] of out) list.sort((a, b) => a.at - b.at);
   const found = new Map();
