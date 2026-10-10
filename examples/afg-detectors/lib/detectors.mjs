@@ -82,10 +82,10 @@ export async function retryStorms(pool, { limit = ROW_LIMIT } = {}) {
 
 /* 2b. drain_pattern: a sudden large payment to a stranger. `asOf` exists for the validator, whose
    data ends when the simulation ends; live runs leave it null and the query reads now(). */
-export async function drains(pool, { asOf = null, limit = ROW_LIMIT } = {}) {
+export async function drains(pool, { asOf = null, limit = ROW_LIMIT, lookback = DRAIN_LOOKBACK } = {}) {
   const { rows } = await pool.query(
     `WITH p AS (
-       SELECT m.event_id, m.actor_id, m.from_caip10, m.to_id, m.amount_usd, m.block_time, m.tx,
+       SELECT m.event_id, m.actor_id, m.from_caip10, m.to_id, m.amount_usd, m.asset, m.block_time, m.tx,
               max(m.amount_usd) OVER w AS prior_max, count(*) OVER w AS prior_n
        FROM money_events m
        WHERE m.kind = 'PAY' AND NOT m.pre_registration AND NOT m.pass_through AND m.pass_checked_at IS NOT NULL AND m.block_time IS NOT NULL
@@ -98,7 +98,7 @@ export async function drains(pool, { asOf = null, limit = ROW_LIMIT } = {}) {
                        WHERE q.actor_id = p.actor_id AND q.to_id = p.to_id AND q.kind = 'PAY'
                          AND q.block_time < p.block_time)
      ORDER BY p.block_time DESC LIMIT $6`,
-    [DRAIN_MULT, DRAIN_MIN_USD, DRAIN_MIN_HISTORY, DRAIN_LOOKBACK, asOf, limit]
+    [DRAIN_MULT, DRAIN_MIN_USD, DRAIN_MIN_HISTORY, lookback, asOf, limit]
   );
   return rows;
 }
@@ -143,7 +143,7 @@ export async function mintBurstsSliding(pool, { limit = BURST_LIMIT } = {}) {
    This version reads the SUM to one new payee inside a window after the first payment to it, against
    the same history test. It is a superset of the single-payment rule, so it is measured on its own. */
 export const SLOW_WINDOW = "72 hours";
-export async function slowDrains(pool, { asOf = null, limit = ROW_LIMIT } = {}) {
+export async function slowDrains(pool, { asOf = null, limit = ROW_LIMIT, lookback = DRAIN_LOOKBACK } = {}) {
   const { rows } = await pool.query(
     `WITH pay AS (
        SELECT actor_id, to_id, amount_usd, block_time, event_id, tx FROM money_events
@@ -152,21 +152,43 @@ export async function slowDrains(pool, { asOf = null, limit = ROW_LIMIT } = {}) 
        SELECT actor_id, to_id, min(block_time) AS first_t FROM pay GROUP BY 1, 2),
      win AS (
        SELECT f.actor_id, f.to_id, f.first_t, sum(p.amount_usd) AS usd, count(*)::int AS payments, max(p.amount_usd) AS largest, max(p.block_time) AS last_t,
-              (array_agg(p.tx ORDER BY p.block_time))[1] AS first_tx
+              (array_agg(p.tx ORDER BY p.block_time))[1] AS first_tx, (array_agg(p.tx ORDER BY p.block_time DESC))[1] AS last_tx
        FROM firsts f JOIN pay p ON p.actor_id = f.actor_id AND p.to_id = f.to_id AND p.block_time >= f.first_t AND p.block_time < f.first_t + $5::interval
        WHERE f.first_t > coalesce($6::timestamptz, now()) - $4::interval
        GROUP BY 1, 2, 3),
      hist AS (
-       SELECT w.actor_id, w.to_id, w.first_t, w.usd, w.payments, w.largest, w.last_t, w.first_tx,
+       SELECT w.actor_id, w.to_id, w.first_t, w.usd, w.payments, w.largest, w.last_t, w.first_tx, w.last_tx,
               (SELECT count(*) FROM pay q WHERE q.actor_id = w.actor_id AND q.block_time < w.first_t) AS prior_n,
               (SELECT max(amount_usd) FROM pay q WHERE q.actor_id = w.actor_id AND q.block_time < w.first_t) AS prior_max
        FROM win w)
      SELECT * FROM hist
      WHERE prior_n >= $3 AND usd >= $2 AND usd >= $1 * prior_max
      ORDER BY usd DESC LIMIT $7`,
-    [DRAIN_MULT, DRAIN_MIN_USD, DRAIN_MIN_HISTORY, DRAIN_LOOKBACK, SLOW_WINDOW, asOf, limit]
+    [DRAIN_MULT, DRAIN_MIN_USD, DRAIN_MIN_HISTORY, lookback, SLOW_WINDOW, asOf, limit]
   );
   return rows;
+}
+/* ---- candidate: slow drains that emptied the wallet ----
+   The sum rule alone flags subscriptions (46 of 117 false alarms in the 20k synthetic run were
+   `periodical`). "Before the first payment" is the wrong denominator here, because money can keep
+   arriving during the window (the all-history backtest of 10 Oct found wallets that sent 10x what
+   they held because they were refilled as they paid). So the test reads what the wallet held before
+   the first payment and what was LEFT after the last one: a drained wallet ends near empty. */
+export const LEFT_FRACTION = 0.2;
+export async function slowDrainsEmptied(pool, { asOf = null, balanceAt, maxLeft = LEFT_FRACTION, limit = ROW_LIMIT, lookback = DRAIN_LOOKBACK } = {}) {
+  const rows = await slowDrains(pool, { asOf, limit, lookback });
+  const out = [];
+  for (const r of rows) {
+    const wallet = (await pool.query("SELECT from_caip10, asset FROM money_events WHERE tx = $1 AND actor_id = $2 AND kind = 'PAY' LIMIT 1", [r.first_tx, r.actor_id])).rows[0];
+    const asset = wallet ? wallet.asset || "USDC" : "USDC";
+    const before = wallet ? await balanceAt(wallet.from_caip10, r.first_t, r.first_tx, asset) : null;
+    const after = wallet ? await balanceAt(wallet.from_caip10, r.last_t, r.last_tx, asset, { after: true }) : null;
+    const base = Math.max(Number(before || 0), Number(r.usd));
+    const left = after != null && base > 0 ? after / base : null;
+    out.push({ ...r, from_caip10: wallet ? wallet.from_caip10 : null, balance_before_usd: before == null ? null : +before.toFixed(2), balance_after_usd: after == null ? null : +after.toFixed(2),
+      left_fraction: left == null ? null : +Math.min(left, 9.99).toFixed(3), emptied: left != null && left <= maxLeft });
+  }
+  return out.filter((r) => r.emptied || r.left_fraction == null);
 }
 
 /* ---- candidate: drains that emptied the wallet ----
@@ -176,13 +198,18 @@ export async function slowDrains(pool, { asOf = null, limit = ROW_LIMIT } = {}) 
    did this wallet hold just before this payment", from the chain for the live run and from the
    generator's books for the validator. The fraction is reported as evidence; `minFraction` filters. */
 export const EMPTIED_FRACTION = 0.8;
-export async function drainsEmptied(pool, { asOf = null, balanceAt, minFraction = EMPTIED_FRACTION, limit = ROW_LIMIT } = {}) {
-  const rows = await drains(pool, { asOf, limit });
+/* `balanceAt(walletCaip10, blockTime, tx, asset, { after })` reads what the wallet held just before the
+   payment's block, or with `after: true` at the end of that block. A wallet funded and emptied inside
+   one block (a sweep that waits for the deposit) shows 0 before and 0 after; that is a drain too. */
+export async function drainsEmptied(pool, { asOf = null, balanceAt, minFraction = EMPTIED_FRACTION, limit = ROW_LIMIT, lookback = DRAIN_LOOKBACK } = {}) {
+  const rows = await drains(pool, { asOf, limit, lookback });
   const out = [];
   for (const r of rows) {
-    const before = await balanceAt(r.from_caip10, r.block_time, r.tx, r.asset || "USDC");
-    const fraction = before != null && before > 0 ? Number(r.amount_usd) / before : null;
-    out.push({ ...r, balance_before_usd: before == null ? null : +before.toFixed(2), fraction_of_balance: fraction == null ? null : +Math.min(fraction, 9.99).toFixed(3), emptied: fraction != null && fraction >= minFraction });
+    const asset = r.asset || "USDC", amount = Number(r.amount_usd);
+    let before = await balanceAt(r.from_caip10, r.block_time, r.tx, asset);
+    let fraction = before != null && before > 0 ? amount / before : null, sameBlock = false;
+    if (before === 0) { const after = await balanceAt(r.from_caip10, r.block_time, r.tx, asset, { after: true }); if (after != null && after <= 0.02 * amount) { fraction = 1; sameBlock = true; } }
+    out.push({ ...r, balance_before_usd: before == null ? null : +before.toFixed(2), fraction_of_balance: fraction == null ? null : +Math.min(fraction, 9.99).toFixed(3), funded_same_block: sameBlock, emptied: fraction != null && fraction >= minFraction });
   }
   return out.filter((r) => r.emptied || r.fraction_of_balance == null);
 }
@@ -195,11 +222,13 @@ export function chainBalanceAt(rpcUrl, gov = null) {
     if (!gov) return fn();
     const r = await gov.run("alchemy", cu, fn); if (r.skipped || r.error) throw new Error(r.reason || r.error); return r.value;
   };
-  return async (walletCaip10, blockTime, tx, asset) => {
+  const blocks = new Map();
+  return async (walletCaip10, blockTime, tx, asset, { after = false } = {}) => {
     const t = STABLE_ADDR[String(asset || "USDC").toUpperCase()]; if (!t) return null;
     const wallet = String(walletCaip10).replace(/^eip155:\d+:/, "").toLowerCase();
-    const rc = await call("eth_getTransactionReceipt", [tx], 26); if (!rc || !rc.blockNumber) return null;
-    const block = "0x" + (parseInt(rc.blockNumber, 16) - 1).toString(16);
+    if (!blocks.has(tx)) { const rc = await call("eth_getTransactionReceipt", [tx], 26); blocks.set(tx, rc && rc.blockNumber ? parseInt(rc.blockNumber, 16) : null); }
+    const bn = blocks.get(tx); if (bn == null) return null;
+    const block = "0x" + (after ? bn : bn - 1).toString(16);
     const data = "0x70a08231" + wallet.slice(2).padStart(64, "0");
     const hex = await call("eth_call", [{ to: t[0], data }, block], 26);
     return hex && hex !== "0x" ? Number(BigInt(hex)) / 10 ** t[1] : null;
