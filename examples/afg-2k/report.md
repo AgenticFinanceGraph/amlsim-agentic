@@ -1,6 +1,6 @@
 # Detector validation on synthetic labelled data: afg-2k
 
-Generated 2026-10-10 10:24 UTC, seed 20261010, 2,813 agents, 66,881 transfers, 189 injected patterns over 1440 steps of 60 min. Detectors imported from `../pulse` (run time 220 ms).
+Generated 2026-10-10 11:08 UTC, seed 20261010, 2,813 agents, 66,900 transfers, 189 injected patterns over 1440 steps of 60 min. Detectors imported from `../pulse` (run time 225 ms).
 
 Synthetic data measures the rules, not the chain: every number below says how a detector behaves on shapes with known answers, and nothing about how often those shapes occur in the real ledger.
 
@@ -8,12 +8,12 @@ Synthetic data measures the rules, not the chain: every number below says how a 
 
 | detector | expected | hit | miss | false alarms | unexpected catches | precision | recall |
 |---|---|---|---|---|---|---|---|
-| drain_pattern | 25 | 25 | 0 | 14 | 0 | 64.1% | 100.0% |
+| drain_pattern | 25 | 25 | 0 | 11 | 0 | 69.4% | 100.0% |
 | retry_storm | 15 | 15 | 0 | 0 | 0 | 100.0% | 100.0% |
 | mint_burst | 6 | 6 | 0 | 0 | 0 | 100.0% | 100.0% |
 | uri_timeout_streak | 12 | 12 | 0 | 0 | 0 | 100.0% | 100.0% |
 
-False alarms by the shape that caused them: drain_pattern on purchase x14.
+False alarms by the shape that caused them: drain_pattern on purchase x11.
 
 Unexpected catches: none.
 
@@ -26,15 +26,17 @@ Proposed replacements, measured the same way. An unexpected catch here is a susp
 |---|---|---|---|---|---|---|---|---|
 | retry_storm_sliding_10min | retry_storm | 15 | 15 | 0 | 0 | 8 (retry_storm_straddle x8) | 100.0% | 100.0% |
 | mint_burst_sliding_60min | mint_burst | 6 | 6 | 0 | 0 | 0 | 100.0% | 100.0% |
-| slow_drain_72h_sum | drain_pattern | 25 | 25 | 0 | 18 (x402_micro x1, periodical x3, purchase x14) | 10 (slow_drain x10) | 58.1% | 100.0% |
+| slow_drain_72h_sum | drain_pattern | 25 | 25 | 0 | 15 (x402_micro x1, periodical x3, purchase x11) | 11 (slow_drain x10, random x1) | 62.5% | 100.0% |
 | drain_emptied_80pct | drain_pattern | 25 | 25 | 0 | 0 | 0 | 100.0% | 100.0% |
+| slow_drain_72h_emptied_80pct | drain_pattern | 25 | 25 | 0 | 4 (x402_micro x1, periodical x3) | 10 (slow_drain x10) | 86.2% | 100.0% |
 | layering_cycle | cycle | 8 | 6 | 2 | 3 (normal x3) | 0 | 66.7% | 75.0% |
+| layering_cycle_wide | cycle | 8 | 6 | 2 | 3 (normal x3) | 0 | 66.7% | 75.0% |
 | layering_scatter_gather | scatter_gather | 4 | 4 | 0 | 1 (normal x1) | 0 | 80.0% | 100.0% |
 | layering_gather_scatter | gather_scatter | 4 | 4 | 0 | 0 | 1 (stack x1) | 100.0% | 100.0% |
 | layering_fan_in_same_amount | fan_in | 6 | 6 | 0 | 0 | 4 (gather_scatter x4) | 100.0% | 100.0% |
 | layering_fan_out_same_amount | fan_out | 6 | 6 | 0 | 0 | 4 (gather_scatter x4) | 100.0% | 100.0% |
 
-Layering ran over 2,526 agent-to-agent edges (loaded in 61 ms; cycle 7 ms, scatter_gather 4 ms, gather_scatter 2 ms, fan_in_same_amount 1 ms, fan_out_same_amount 7 ms). A layering candidate's "expected" column counts the injected instances of that AMLSim shape.
+Layering ran over 2,530 agent-to-agent edges (loaded in 60 ms; cycle 5 ms, cycle_wide 4 ms, scatter_gather 4 ms, gather_scatter 4 ms, fan_in_same_amount 1 ms, fan_out_same_amount 1 ms). A layering candidate's "expected" column counts the injected instances of that AMLSim shape.
 
 ## Shapes
 
@@ -86,10 +88,10 @@ Production `score()` over features derived from the loaded tables, against the l
 
 | expected level | agents | agree |
 |---|---|---|
-| L0 | 1269 | 1269 |
-| L7 | 123 | 123 |
-| L8 | 781 | 781 |
-| L9 | 640 | 640 |
+| L0 | 1263 | 1263 |
+| L7 | 136 | 136 |
+| L8 | 787 | 787 |
+| L9 | 627 | 627 |
 
 ## Pass-through rule
 
@@ -127,6 +129,8 @@ Production `norm()` and `lookalike()` over symbols and addresses with known answ
 | an unrelated address matches nothing | yes |
 | a payee is not its own look-alike | yes |
 
+End to end, 300 synthetic wallets with planted look-alikes (seeded): 151 of 151 losses found, 0 false losses, 0 missed. The rule: a real-token payment to an address planted in the wallet's history first, where the plant is a look-alike of a real payee (first 4 + last 4, or last 4 with a fake-symbol token).
+
 ## Fidelity
 
-Counted spending in the loaded tables: $737,123.73; the generator's own total: $737,123.73 (match), 35,263 counted payments.
+Counted spending in the loaded tables: $589,341.34; the generator's own total: $589,341.34 (match), 35,263 counted payments.
