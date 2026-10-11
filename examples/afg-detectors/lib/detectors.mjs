@@ -250,3 +250,92 @@ export async function probeStreaks(pool, { limit = ROW_LIMIT } = {}) {
   );
   return rows;
 }
+
+/* ---- correction candidates, 11 Oct 2026: islands instead of calendar buckets ----------------
+   The sliding-window versions above find every storm and burst the bucket versions miss, but they
+   group by calendar day, so two separate storms between one payer and one seller in a day collapse
+   into one row, and a day-keyed row cannot share an id with the hour-keyed rows already logged.
+   These versions group by ISLAND instead: a run of payments (or mints) in which no gap between
+   consecutive events exceeds the window. Inside an island the peak is the most events any single
+   window holds; the island is reported when that peak reaches the threshold. An island starts where
+   the old bucket started whenever the bucket found it at all, so the hour-keyed incident ids still
+   match and nothing is logged twice. Measured on the synthetic set before being wired in. */
+export async function retryStormsIsland(pool, { limit = ROW_LIMIT } = {}) {
+  const { rows } = await pool.query(
+    `WITH p AS (SELECT actor_id, to_id, block_time, amount_usd FROM money_events
+                WHERE kind = 'PAY' AND NOT pre_registration AND block_time IS NOT NULL),
+          w AS (SELECT actor_id, to_id, block_time, amount_usd,
+                       count(*) OVER win AS n,
+                       CASE WHEN lag(block_time) OVER o IS NULL OR block_time - lag(block_time) OVER o > $2::interval THEN 1 ELSE 0 END AS brk
+                FROM p
+                WINDOW win AS (PARTITION BY actor_id, to_id ORDER BY block_time RANGE BETWEEN $2::interval PRECEDING AND CURRENT ROW),
+                       o AS (PARTITION BY actor_id, to_id ORDER BY block_time)),
+          i AS (SELECT *, sum(brk) OVER (PARTITION BY actor_id, to_id ORDER BY block_time ROWS UNBOUNDED PRECEDING) AS island FROM w)
+     SELECT actor_id, to_id, max(n)::int AS n, count(*)::int AS payments,
+            min(block_time) AS from_t, max(block_time) AS to_t, round(sum(amount_usd)::numeric, 2) AS usd
+     FROM i GROUP BY actor_id, to_id, island
+     HAVING max(n) >= $1
+     ORDER BY n DESC LIMIT $3`,
+    [RETRY_MIN, RETRY_WINDOW, limit]
+  );
+  return rows;
+}
+export async function mintBurstsIsland(pool, { limit = BURST_LIMIT } = {}) {
+  const { rows } = await pool.query(
+    `WITH r AS (SELECT minted_to, minted_at, token_id FROM registrations WHERE minted_to IS NOT NULL AND minted_at IS NOT NULL),
+          w AS (SELECT minted_to, minted_at, token_id,
+                       count(*) OVER win AS n,
+                       CASE WHEN lag(minted_at) OVER o IS NULL OR minted_at - lag(minted_at) OVER o > interval '60 minutes' THEN 1 ELSE 0 END AS brk
+                FROM r
+                WINDOW win AS (PARTITION BY minted_to ORDER BY minted_at RANGE BETWEEN interval '60 minutes' PRECEDING AND CURRENT ROW),
+                       o AS (PARTITION BY minted_to ORDER BY minted_at, token_id)),
+          i AS (SELECT *, sum(brk) OVER (PARTITION BY minted_to ORDER BY minted_at, token_id ROWS UNBOUNDED PRECEDING) AS island FROM w)
+     SELECT minted_to, max(n)::int AS n, count(*)::int AS registrations,
+            min(minted_at) AS from_t, max(minted_at) AS to_t, min(token_id) AS lo, max(token_id) AS hi
+     FROM i GROUP BY minted_to, island
+     HAVING max(n) >= $1
+     ORDER BY n DESC LIMIT $2`,
+    [SYBIL_MIN_PER_HOUR, limit]
+  );
+  return rows;
+}
+
+/* ---- candidate (11 Oct 2026): slow drain by the sink's share of outflow ----
+   The balance tests fail on hot wallets, which run near zero between payments, so "left near empty"
+   is true of ordinary wallets. This version reads only the ledger: inside the 72 hours after the first
+   payment to a new payee, the sum rule must hold (as in slowDrains), the payee must have taken at
+   least `minShare` of everything the wallet paid in those hours, there must be two or more payments,
+   and their amounts must vary (a subscription pays the same amount each time; a drain escalates).
+   No chain read, so it costs nothing to run hourly. Measured on synthetic data before anything else. */
+export const DOMINANT_SHARE = 0.8;
+export const DOMINANT_MIN_CV = 0.1;
+export async function slowDrainsDominant(pool, { asOf = null, limit = ROW_LIMIT, lookback = DRAIN_LOOKBACK, minShare = DOMINANT_SHARE, minCv = DOMINANT_MIN_CV } = {}) {
+  const { rows } = await pool.query(
+    `WITH pay AS (
+       SELECT actor_id, to_id, amount_usd, block_time, event_id, tx FROM money_events
+       WHERE kind = 'PAY' AND NOT pre_registration AND NOT pass_through AND pass_checked_at IS NOT NULL AND block_time IS NOT NULL),
+     firsts AS (SELECT actor_id, to_id, min(block_time) AS first_t FROM pay GROUP BY 1, 2),
+     win AS (
+       SELECT f.actor_id, f.to_id, f.first_t, sum(p.amount_usd) AS usd, count(*)::int AS payments, max(p.amount_usd) AS largest, max(p.block_time) AS last_t,
+              stddev_samp(p.amount_usd) / nullif(avg(p.amount_usd), 0) AS amount_cv,
+              (array_agg(p.tx ORDER BY p.block_time))[1] AS first_tx, (array_agg(p.tx ORDER BY p.block_time DESC))[1] AS last_tx
+       FROM firsts f JOIN pay p ON p.actor_id = f.actor_id AND p.to_id = f.to_id AND p.block_time >= f.first_t AND p.block_time < f.first_t + $5::interval
+       WHERE f.first_t > coalesce($6::timestamptz, now()) - $4::interval
+       GROUP BY 1, 2, 3),
+     allout AS (
+       SELECT w.actor_id, w.to_id, w.first_t, sum(q.amount_usd) AS out_usd
+       FROM win w JOIN pay q ON q.actor_id = w.actor_id AND q.block_time >= w.first_t AND q.block_time < w.first_t + $5::interval
+       GROUP BY 1, 2, 3),
+     hist AS (
+       SELECT w.*, a.out_usd, w.usd / nullif(a.out_usd, 0) AS sink_share,
+              (SELECT count(*) FROM pay q WHERE q.actor_id = w.actor_id AND q.block_time < w.first_t) AS prior_n,
+              (SELECT max(amount_usd) FROM pay q WHERE q.actor_id = w.actor_id AND q.block_time < w.first_t) AS prior_max
+       FROM win w JOIN allout a ON a.actor_id = w.actor_id AND a.to_id = w.to_id AND a.first_t = w.first_t)
+     SELECT * FROM hist
+     WHERE prior_n >= $3 AND usd >= $2 AND usd >= $1 * prior_max AND payments >= 2
+       AND coalesce(amount_cv, 0) >= $8 AND coalesce(sink_share, 0) >= $9
+     ORDER BY usd DESC LIMIT $7`,
+    [DRAIN_MULT, DRAIN_MIN_USD, DRAIN_MIN_HISTORY, lookback, SLOW_WINDOW, asOf, limit, minCv, minShare]
+  );
+  return rows;
+}
