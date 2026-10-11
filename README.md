@@ -154,6 +154,8 @@ The same candidate functions, run read-only over everything the ledger has store
 | slow drain, left near empty (chain read) | 25 of 25 and 10 of 10, 4 false alarms (86.2%) | 25 of 25 and 9 of 9, 3 false alarms (89.3%) |
 | slow drain, dominant share of outflow (no chain read) | 10 of 10, 1 false alarm (90.9%) | 9 of 10, 1 false alarm (90.0%) |
 
+On the 20k run (re-validated 11 October after the query was rewritten with window functions, 91 seconds to 3 on the live ledger, identical rows): 39 of 40 slow drains, 4 false alarms (3 `x402_micro`, 1 `fan_out`), 90.7% precision, 97.5% recall; the island rules 60 of 60 storms plus all 30 hour-straddling ones and 20 of 20 bursts.
+
 The live drain rule itself raised fewer false alarms on the hot run (6, 80.6%) than on the baseline (11, 69.4%): a hot wallet's one-off purchase is funded just before it and is less often five times its previous largest payment. That is a property of this generator's hot model, not a measurement of the chain.
 
 ## Differences from AMLSim worth knowing
