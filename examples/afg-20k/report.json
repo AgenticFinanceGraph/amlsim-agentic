@@ -7,7 +7,7 @@
     "base_date": "2026-08-11T00:00:00Z"
   },
   "generated_at": "2026-10-10T10:28:56.559Z",
-  "validated_at": "2026-10-10T11:18:27.698Z",
+  "validated_at": "2026-10-10T11:40:37.465Z",
   "as_of": "2026-10-10T00:00:00.000Z",
   "detector_code": "../pulse",
   "counts": {
@@ -18,7 +18,7 @@
     "counted_spending_usd": 4848316.51,
     "routing_usd": 163809.13
   },
-  "detector_ms": 1336,
+  "detector_ms": 1691,
   "rules": {
     "DRAIN_MULT": 5,
     "DRAIN_MIN_USD": 250,
@@ -1617,19 +1617,19 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00453",
-            "actor": "act_8453_312438",
-            "counterparty": "eip155:8453:0x2dac31c5ff193b64aedfba152afe61fe87fb2232",
-            "payments": 111,
-            "hour": "2026-09-19T19",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00447",
             "actor": "act_8453_309484",
             "counterparty": "eip155:8453:0x50d14c4661583c12418e64d6c11b1dec97468bd2",
             "payments": 111,
             "hour": "2026-10-07T00",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00453",
+            "actor": "act_8453_312438",
+            "counterparty": "eip155:8453:0x2dac31c5ff193b64aedfba152afe61fe87fb2232",
+            "payments": 111,
+            "hour": "2026-09-19T19",
             "typology": "retry_storm"
           },
           {
@@ -1665,19 +1665,19 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00469",
-            "actor": "act_8453_311997",
-            "counterparty": "eip155:8453:0xe2cd0f34427667be9da118483c84f8e38a58e2b6",
-            "payments": 106,
-            "hour": "2026-09-24T11",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00426",
             "actor": "act_8453_303945",
             "counterparty": "eip155:8453:0x61effe3fd0ebd54bab3767dba70f946d562f779d",
             "payments": 106,
             "hour": "2026-10-04T06",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00469",
+            "actor": "act_8453_311997",
+            "counterparty": "eip155:8453:0xe2cd0f34427667be9da118483c84f8e38a58e2b6",
+            "payments": 106,
+            "hour": "2026-09-24T11",
             "typology": "retry_storm"
           },
           {
@@ -1713,6 +1713,14 @@
             "typology": "retry_storm"
           },
           {
+            "instance": "retry_storm_00455",
+            "actor": "act_8453_312773",
+            "counterparty": "eip155:8453:0xfd99cd31cc4a3fe02a780924323adcd32fb2c9bf",
+            "payments": 100,
+            "hour": "2026-09-26T03",
+            "typology": "retry_storm"
+          },
+          {
             "instance": "retry_storm_00461",
             "actor": "act_8453_301411",
             "counterparty": "eip155:8453:0x381479c772dd735e21880f250abc19913eb60e19",
@@ -1729,27 +1737,19 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00471",
-            "actor": "act_8453_304041",
-            "counterparty": "eip155:8453:0x020277e1744766880f44ac17133afb41f58b56e0",
-            "payments": 100,
-            "hour": "2026-10-09T22",
-            "typology": "retry_storm"
-          },
-          {
-            "instance": "retry_storm_00455",
-            "actor": "act_8453_312773",
-            "counterparty": "eip155:8453:0xfd99cd31cc4a3fe02a780924323adcd32fb2c9bf",
-            "payments": 100,
-            "hour": "2026-09-26T03",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00429",
             "actor": "act_8453_302588",
             "counterparty": "eip155:8453:0xeb611ecc34c708b580801dd5c0c2009c954a8924",
             "payments": 100,
             "hour": "2026-10-05T16",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00471",
+            "actor": "act_8453_304041",
+            "counterparty": "eip155:8453:0x020277e1744766880f44ac17133afb41f58b56e0",
+            "payments": 100,
+            "hour": "2026-10-09T22",
             "typology": "retry_storm"
           },
           {
@@ -1825,19 +1825,19 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00435",
-            "actor": "act_8453_307798",
-            "counterparty": "eip155:8453:0xf23253b05b92e47e915aa22931b325629be5048e",
-            "payments": 80,
-            "hour": "2026-10-09T02",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00464",
             "actor": "act_8453_317664",
             "counterparty": "eip155:8453:0x5ba5b43942f9b72c2257c2c8467273021bc35400",
             "payments": 80,
             "hour": "2026-10-03T11",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00435",
+            "actor": "act_8453_307798",
+            "counterparty": "eip155:8453:0xf23253b05b92e47e915aa22931b325629be5048e",
+            "payments": 80,
+            "hour": "2026-10-09T02",
             "typology": "retry_storm"
           },
           {
@@ -1849,14 +1849,6 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00440",
-            "actor": "act_8453_318818",
-            "counterparty": "eip155:8453:0xf3040a128b8a1a8a1156e81ae3b9d431b95734e5",
-            "payments": 79,
-            "hour": "2026-10-06T00",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00457",
             "actor": "act_8453_307274",
             "counterparty": "eip155:8453:0x0f38a7ec3c2fbe7699f77ae9be41e3733883fe02",
@@ -1865,11 +1857,11 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00416",
-            "actor": "act_8453_306324",
-            "counterparty": "eip155:8453:0x93b03c610921e7e7c5770f343d855e0c8f1f7fa3",
-            "payments": 78,
-            "hour": "2026-10-04T04",
+            "instance": "retry_storm_00440",
+            "actor": "act_8453_318818",
+            "counterparty": "eip155:8453:0xf3040a128b8a1a8a1156e81ae3b9d431b95734e5",
+            "payments": 79,
+            "hour": "2026-10-06T00",
             "typology": "retry_storm"
           },
           {
@@ -1881,19 +1873,19 @@
             "typology": "retry_storm"
           },
           {
+            "instance": "retry_storm_00416",
+            "actor": "act_8453_306324",
+            "counterparty": "eip155:8453:0x93b03c610921e7e7c5770f343d855e0c8f1f7fa3",
+            "payments": 78,
+            "hour": "2026-10-04T04",
+            "typology": "retry_storm"
+          },
+          {
             "instance": "retry_storm_00424",
             "actor": "act_8453_312583",
             "counterparty": "eip155:8453:0x0594e1ac6f29c113dfa36d3cc327a03ddc4e7bde",
             "payments": 71,
             "hour": "2026-10-06T04",
-            "typology": "retry_storm"
-          },
-          {
-            "instance": "retry_storm_00436",
-            "actor": "act_8453_314050",
-            "counterparty": "eip155:8453:0x25bd8dd6af41f4f25646401aefb3f0795968a464",
-            "payments": 70,
-            "hour": "2026-09-25T12",
             "typology": "retry_storm"
           },
           {
@@ -1905,6 +1897,14 @@
             "typology": "retry_storm"
           },
           {
+            "instance": "retry_storm_00436",
+            "actor": "act_8453_314050",
+            "counterparty": "eip155:8453:0x25bd8dd6af41f4f25646401aefb3f0795968a464",
+            "payments": 70,
+            "hour": "2026-09-25T12",
+            "typology": "retry_storm"
+          },
+          {
             "instance": "retry_storm_00421",
             "actor": "act_8453_316081",
             "counterparty": "eip155:8453:0xab3ebe493f98008c1ea0d88c75cd6299691dc401",
@@ -1913,19 +1913,19 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00456",
-            "actor": "act_8453_317549",
-            "counterparty": "eip155:8453:0xa19117035fa86cb8559feaddb4d448cb198a2b3c",
-            "payments": 67,
-            "hour": "2026-09-06T20",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00452",
             "actor": "act_8453_315327",
             "counterparty": "eip155:8453:0xdbffe371af302c703a42dbf6b581344356d42886",
             "payments": 67,
             "hour": "2026-10-07T22",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00456",
+            "actor": "act_8453_317549",
+            "counterparty": "eip155:8453:0xa19117035fa86cb8559feaddb4d448cb198a2b3c",
+            "payments": 67,
+            "hour": "2026-09-06T20",
             "typology": "retry_storm"
           },
           {
@@ -2025,19 +2025,19 @@
             "typology": "retry_storm"
           },
           {
-            "instance": "retry_storm_00439",
-            "actor": "act_8453_312290",
-            "counterparty": "eip155:8453:0x79542403710b46d572ed535eeef1ab1c45046423",
-            "payments": 50,
-            "hour": "2026-09-19T18",
-            "typology": "retry_storm"
-          },
-          {
             "instance": "retry_storm_00454",
             "actor": "act_8453_307313",
             "counterparty": "eip155:8453:0x2e194d6d486d5729b21b489d15988b58ed493bb5",
             "payments": 50,
             "hour": "2026-09-24T11",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00439",
+            "actor": "act_8453_312290",
+            "counterparty": "eip155:8453:0x79542403710b46d572ed535eeef1ab1c45046423",
+            "payments": 50,
+            "hour": "2026-09-19T18",
             "typology": "retry_storm"
           },
           {
@@ -7653,13 +7653,13 @@
     "layering_cycle": {
       "kind": "cycle",
       "expected": 25,
-      "hit": 17,
-      "miss": 8,
+      "hit": 25,
+      "miss": 0,
       "false_alarm": 2,
       "unexpected_catch": 2,
-      "precision": 0.895,
-      "recall": 0.68,
-      "detections": 21,
+      "precision": 0.926,
+      "recall": 1,
+      "detections": 29,
       "unexpected_catches_by_shape": {
         "random": 2
       },
@@ -7668,6 +7668,20 @@
       },
       "detail": {
         "hit": [
+          {
+            "instance": "cycle_00064",
+            "main": "act_8453_316731",
+            "members": 10,
+            "usd": 170.92,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00053",
+            "main": "act_8453_309955",
+            "members": 10,
+            "usd": 133.45,
+            "typology": "cycle"
+          },
           {
             "instance": "cycle_00048",
             "main": "act_8453_306323",
@@ -7704,10 +7718,31 @@
             "typology": "cycle"
           },
           {
+            "instance": "cycle_00050",
+            "main": "act_8453_302968",
+            "members": 9,
+            "usd": 101.62,
+            "typology": "cycle"
+          },
+          {
             "instance": "cycle_00042",
             "main": "act_8453_312945",
             "members": 6,
             "usd": 101.22,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00065",
+            "main": "act_8453_317817",
+            "members": 9,
+            "usd": 198.23,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00045",
+            "main": "act_8453_317243",
+            "members": 9,
+            "usd": 174.37,
             "typology": "cycle"
           },
           {
@@ -7760,6 +7795,13 @@
             "typology": "cycle"
           },
           {
+            "instance": "cycle_00055",
+            "main": "act_8453_311947",
+            "members": 10,
+            "usd": 120.67,
+            "typology": "cycle"
+          },
+          {
             "instance": "cycle_00063",
             "main": "act_8453_313711",
             "members": 7,
@@ -7771,6 +7813,13 @@
             "main": "act_8453_314512",
             "members": 6,
             "usd": 197.12,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00046",
+            "main": "act_8453_301049",
+            "members": 10,
+            "usd": 133.95,
             "typology": "cycle"
           },
           {
@@ -7786,42 +7835,16 @@
             "members": 6,
             "usd": 170.27,
             "typology": "cycle"
-          }
-        ],
-        "miss": [
-          {
-            "instance": "cycle_00045",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00046",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00050",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00053",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00055",
-            "typology": "cycle"
           },
           {
             "instance": "cycle_00059",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00064",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00065",
+            "main": "act_8453_313762",
+            "members": 9,
+            "usd": 115.04,
             "typology": "cycle"
           }
         ],
+        "miss": [],
         "false_alarm": [
           {
             "instance": null,
@@ -7859,13 +7882,13 @@
     "layering_cycle_wide": {
       "kind": "cycle",
       "expected": 25,
-      "hit": 17,
-      "miss": 8,
+      "hit": 25,
+      "miss": 0,
       "false_alarm": 2,
       "unexpected_catch": 2,
-      "precision": 0.895,
-      "recall": 0.68,
-      "detections": 21,
+      "precision": 0.926,
+      "recall": 1,
+      "detections": 29,
       "unexpected_catches_by_shape": {
         "random": 2
       },
@@ -7874,6 +7897,20 @@
       },
       "detail": {
         "hit": [
+          {
+            "instance": "cycle_00064",
+            "main": "act_8453_316731",
+            "members": 10,
+            "usd": 170.92,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00053",
+            "main": "act_8453_309955",
+            "members": 10,
+            "usd": 133.45,
+            "typology": "cycle"
+          },
           {
             "instance": "cycle_00048",
             "main": "act_8453_306323",
@@ -7910,10 +7947,31 @@
             "typology": "cycle"
           },
           {
+            "instance": "cycle_00050",
+            "main": "act_8453_302968",
+            "members": 9,
+            "usd": 101.62,
+            "typology": "cycle"
+          },
+          {
             "instance": "cycle_00042",
             "main": "act_8453_312945",
             "members": 6,
             "usd": 101.22,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00065",
+            "main": "act_8453_317817",
+            "members": 9,
+            "usd": 198.23,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00045",
+            "main": "act_8453_317243",
+            "members": 9,
+            "usd": 174.37,
             "typology": "cycle"
           },
           {
@@ -7966,6 +8024,13 @@
             "typology": "cycle"
           },
           {
+            "instance": "cycle_00055",
+            "main": "act_8453_311947",
+            "members": 10,
+            "usd": 120.67,
+            "typology": "cycle"
+          },
+          {
             "instance": "cycle_00063",
             "main": "act_8453_313711",
             "members": 7,
@@ -7977,6 +8042,13 @@
             "main": "act_8453_314512",
             "members": 6,
             "usd": 197.12,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00046",
+            "main": "act_8453_301049",
+            "members": 10,
+            "usd": 133.95,
             "typology": "cycle"
           },
           {
@@ -7992,42 +8064,16 @@
             "members": 6,
             "usd": 170.27,
             "typology": "cycle"
-          }
-        ],
-        "miss": [
-          {
-            "instance": "cycle_00045",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00046",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00050",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00053",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00055",
-            "typology": "cycle"
           },
           {
             "instance": "cycle_00059",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00064",
-            "typology": "cycle"
-          },
-          {
-            "instance": "cycle_00065",
+            "main": "act_8453_313762",
+            "members": 9,
+            "usd": 115.04,
             "typology": "cycle"
           }
         ],
+        "miss": [],
         "false_alarm": [
           {
             "instance": null,
@@ -8843,14 +8889,14 @@
   },
   "layering": {
     "edges": 23704,
-    "load_ms": 273,
+    "load_ms": 270,
     "ms": {
-      "cycle": 127,
-      "cycle_wide": 39,
-      "scatter_gather": 32,
-      "gather_scatter": 17,
-      "fan_in_same_amount": 22,
-      "fan_out_same_amount": 15
+      "cycle": 64,
+      "cycle_wide": 30,
+      "scatter_gather": 21,
+      "gather_scatter": 11,
+      "fan_in_same_amount": 21,
+      "fan_out_same_amount": 22
     }
   },
   "poisoning": {
