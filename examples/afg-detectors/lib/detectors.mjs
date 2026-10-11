@@ -312,24 +312,28 @@ export const DOMINANT_MIN_CV = 0.1;
 export async function slowDrainsDominant(pool, { asOf = null, limit = ROW_LIMIT, lookback = DRAIN_LOOKBACK, minShare = DOMINANT_SHARE, minCv = DOMINANT_MIN_CV } = {}) {
   const { rows } = await pool.query(
     `WITH pay AS (
-       SELECT actor_id, to_id, amount_usd, block_time, event_id, tx FROM money_events
+       SELECT actor_id, to_id, amount_usd, block_time, event_id, tx,
+              count(*)        OVER (PARTITION BY actor_id ORDER BY block_time, event_id ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS prior_n,
+              max(amount_usd) OVER (PARTITION BY actor_id ORDER BY block_time, event_id ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS prior_max
+       FROM money_events
        WHERE kind = 'PAY' AND NOT pre_registration AND NOT pass_through AND pass_checked_at IS NOT NULL AND block_time IS NOT NULL),
-     firsts AS (SELECT actor_id, to_id, min(block_time) AS first_t FROM pay GROUP BY 1, 2),
+     firsts AS (
+       SELECT DISTINCT ON (actor_id, to_id) actor_id, to_id, block_time AS first_t, prior_n, prior_max
+       FROM pay ORDER BY actor_id, to_id, block_time, event_id),
      win AS (
-       SELECT f.actor_id, f.to_id, f.first_t, sum(p.amount_usd) AS usd, count(*)::int AS payments, max(p.amount_usd) AS largest, max(p.block_time) AS last_t,
+       SELECT f.actor_id, f.to_id, f.first_t, f.prior_n, f.prior_max,
+              sum(p.amount_usd) AS usd, count(*)::int AS payments, max(p.amount_usd) AS largest, max(p.block_time) AS last_t,
               stddev_samp(p.amount_usd) / nullif(avg(p.amount_usd), 0) AS amount_cv,
               (array_agg(p.tx ORDER BY p.block_time))[1] AS first_tx, (array_agg(p.tx ORDER BY p.block_time DESC))[1] AS last_tx
        FROM firsts f JOIN pay p ON p.actor_id = f.actor_id AND p.to_id = f.to_id AND p.block_time >= f.first_t AND p.block_time < f.first_t + $5::interval
        WHERE f.first_t > coalesce($6::timestamptz, now()) - $4::interval
-       GROUP BY 1, 2, 3),
+       GROUP BY 1, 2, 3, 4, 5),
      allout AS (
        SELECT w.actor_id, w.to_id, w.first_t, sum(q.amount_usd) AS out_usd
        FROM win w JOIN pay q ON q.actor_id = w.actor_id AND q.block_time >= w.first_t AND q.block_time < w.first_t + $5::interval
        GROUP BY 1, 2, 3),
      hist AS (
-       SELECT w.*, a.out_usd, w.usd / nullif(a.out_usd, 0) AS sink_share,
-              (SELECT count(*) FROM pay q WHERE q.actor_id = w.actor_id AND q.block_time < w.first_t) AS prior_n,
-              (SELECT max(amount_usd) FROM pay q WHERE q.actor_id = w.actor_id AND q.block_time < w.first_t) AS prior_max
+       SELECT w.*, a.out_usd, w.usd / nullif(a.out_usd, 0) AS sink_share
        FROM win w JOIN allout a ON a.actor_id = w.actor_id AND a.to_id = w.to_id AND a.first_t = w.first_t)
      SELECT * FROM hist
      WHERE prior_n >= $3 AND usd >= $2 AND usd >= $1 * prior_max AND payments >= 2
