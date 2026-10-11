@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Run the ledger's own detectors over a loaded run and score them against the labels.
 
-     node validate.mjs out/afg-2k [--pulse <dir holding lib/detectors.mjs, lib/ladder.mjs, lib/passthrough.mjs>]
+     node validate.mjs out/afg-2k [--pulse <dir holding lib/detectors.mjs, lib/ladder.mjs, lib/passthrough.mjs>] [--lookback "60 days"]
 
    The detector functions, the liveness ladder and the pass-through rule are imported from the
    production code (lib/detectors.mjs, lib/ladder.mjs, lib/passthrough.mjs under --pulse), not
@@ -21,6 +21,8 @@ const dir = resolve(args[0] || "");
 if (!args[0]) { console.error("usage: node validate.mjs <run dir> [--pulse <detector code dir>]"); process.exit(2); }
 const HERE = dirname(fileURLToPath(import.meta.url));
 const pulse = args.includes("--pulse") ? resolve(args[args.indexOf("--pulse") + 1]) : resolve(HERE, "examples/afg-detectors");
+/* --lookback "60 days": how far back from the run's end the drain-family rules look (their default is the live 30 days) */
+const LB = args.includes("--lookback") ? { lookback: args[args.indexOf("--lookback") + 1] } : {};
 const D = await import(pathToFileURL(resolve(pulse, "lib/detectors.mjs")).href);
 const { score } = await import(pathToFileURL(resolve(pulse, "lib/ladder.mjs")).href);
 const { classifyLegs } = await import(pathToFileURL(resolve(pulse, "lib/passthrough.mjs")).href);
@@ -48,7 +50,7 @@ const hourOf = (d) => new Date(d).toISOString().slice(0, 13);
 const t0 = Date.now();
 /* no cap: a validation must see every row the rule produces, not the hourly run's first hundred */
 const BIG = 1000000;
-const found = { mint_burst: await D.mintBursts(pool, { limit: BIG }), retry_storm: await D.retryStorms(pool, { limit: BIG }), drain_pattern: await D.drains(pool, { asOf, limit: BIG }), uri_timeout_streak: await D.probeStreaks(pool, { limit: BIG }) };
+const found = { mint_burst: await D.mintBursts(pool, { limit: BIG }), retry_storm: await D.retryStorms(pool, { limit: BIG }), drain_pattern: await D.drains(pool, { asOf, limit: BIG, ...LB }), uri_timeout_streak: await D.probeStreaks(pool, { limit: BIG }) };
 const detectorMs = Date.now() - t0;
 
 /* ---- match detections to instances ---- */
@@ -110,18 +112,18 @@ if (D.retryStormsSliding) await candidate("retry_storm_sliding_10min", "retry_st
 if (D.mintBurstsSliding) await candidate("mint_burst_sliding_60min", "mint_burst", await D.mintBurstsSliding(pool, { limit: BIG }), (r) => ({ p: (instByMinter.get(r.minted_to) || [])[0] || null, detail: { minter: r.minted_to, registrations: r.n } }));
 if (D.retryStormsIsland) await candidate("retry_storm_island_10min", "retry_storm", await D.retryStormsIsland(pool, { limit: BIG }), (r) => { const p = (instByMain.get(r.actor_id) || []).find((x) => x.storm_to === r.to_id) || null; return { p, detail: { actor: r.actor_id, counterparty: r.to_id, payments: r.n, typology: p ? p.typology : "periodical" } }; });
 if (D.mintBurstsIsland) await candidate("mint_burst_island_60min", "mint_burst", await D.mintBurstsIsland(pool, { limit: BIG }), (r) => ({ p: (instByMinter.get(r.minted_to) || [])[0] || null, detail: { minter: r.minted_to, registrations: r.n } }));
-if (D.slowDrains) await candidate("slow_drain_72h_sum", "drain_pattern", await D.slowDrains(pool, { asOf, limit: BIG }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
-if (D.slowDrainsDominant) await candidate("slow_drain_72h_dominant_share", "drain_pattern", await D.slowDrainsDominant(pool, { asOf, limit: BIG }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, sink_share: r.sink_share == null ? null : +Number(r.sink_share).toFixed(3), amount_cv: r.amount_cv == null ? null : +Number(r.amount_cv).toFixed(3), typology: p ? p.typology : txTyp.get(r.first_tx) } }; }, { target: "slow_drain" });
+if (D.slowDrains) await candidate("slow_drain_72h_sum", "drain_pattern", await D.slowDrains(pool, { asOf, limit: BIG, ...LB }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
+if (D.slowDrainsDominant) await candidate("slow_drain_72h_dominant_share", "drain_pattern", await D.slowDrainsDominant(pool, { asOf, limit: BIG, ...LB }), (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, sink_share: r.sink_share == null ? null : +Number(r.sink_share).toFixed(3), amount_cv: r.amount_cv == null ? null : +Number(r.amount_cv).toFixed(3), typology: p ? p.typology : txTyp.get(r.first_tx) } }; }, { target: "slow_drain" });
 if (D.drainsEmptied) {
   const bal = new Map((await pool.query("SELECT tx, wallet, usd::float8 AS usd, usd_after::float8 AS usd_after FROM sim_balance_before")).rows.map((r) => [r.tx + "|" + r.wallet, r]));
   const balanceAt = async (w, t, tx, asset, { after = false } = {}) => { const r = bal.get(tx + "|" + w); return r ? (after ? r.usd_after : r.usd) : null; };
-  await candidate("drain_emptied_80pct", "drain_pattern", await D.drainsEmptied(pool, { asOf, balanceAt, limit: BIG }),
+  await candidate("drain_emptied_80pct", "drain_pattern", await D.drainsEmptied(pool, { asOf, balanceAt, limit: BIG, ...LB }),
     (r) => { const p = inst.get(txInst.get(r.tx)) || null; return { p, detail: { actor: r.actor_id, tx: r.tx, usd: +Number(r.amount_usd).toFixed(2), fraction_of_balance: r.fraction_of_balance, typology: p ? p.typology : txTyp.get(r.tx) } }; });
 }
 if (D.slowDrainsEmptied) {
   const bal = new Map((await pool.query("SELECT tx, wallet, usd::float8 AS usd, usd_after::float8 AS usd_after FROM sim_balance_before")).rows.map((r) => [r.tx + "|" + r.wallet, r]));
   const balanceAt = async (w, t, tx, asset, { after = false } = {}) => { const r = bal.get(tx + "|" + w); return r ? (after ? r.usd_after : r.usd) : null; };
-  await candidate("slow_drain_72h_emptied_80pct", "drain_pattern", await D.slowDrainsEmptied(pool, { asOf, balanceAt, limit: BIG }),
+  await candidate("slow_drain_72h_emptied_80pct", "drain_pattern", await D.slowDrainsEmptied(pool, { asOf, balanceAt, limit: BIG, ...LB }),
     (r) => { const p = inst.get(txInst.get(r.first_tx)) || null; return { p, detail: { actor: r.actor_id, payee: r.to_id, usd: +Number(r.usd).toFixed(2), payments: r.payments, fraction_of_balance: r.fraction_of_balance, typology: p ? p.typology : txTyp.get(r.first_tx) } }; });
 }
 /* layering: the detectors that did not exist before the synthetic data did */
@@ -254,7 +256,7 @@ for (const c of PT_CASES) { const r = classifyLegs(c.legs, W); const ok = r.isPa
 const { rows: chk } = await pool.query("SELECT round(sum(amount_usd), 2)::float8 AS usd, count(*)::int AS n FROM money_events WHERE kind = 'PAY' AND NOT pre_registration AND NOT pass_through");
 const fidelity = { counted_spending_tables: chk[0].usd, counted_spending_generator: run.counts.counted_spending_usd, counted_events: chk[0].n, match: Math.abs(chk[0].usd - run.counts.counted_spending_usd) < 0.01 };
 
-const report = { run: run.config.general, generated_at: run.generated_at, validated_at: new Date().toISOString(), as_of: asOf, detector_code: pulseLabel, counts: run.counts, detector_ms: detectorMs,
+const report = { run: run.config.general, generated_at: run.generated_at, validated_at: new Date().toISOString(), as_of: asOf, detector_code: pulseLabel, drain_lookback: LB.lookback || "detector default", counts: run.counts, detector_ms: detectorMs,
   rules: { DRAIN_MULT: D.DRAIN_MULT, DRAIN_MIN_USD: D.DRAIN_MIN_USD, DRAIN_MIN_HISTORY: D.DRAIN_MIN_HISTORY, DRAIN_LOOKBACK: D.DRAIN_LOOKBACK, RETRY_MIN: D.RETRY_MIN, RETRY_WINDOW: D.RETRY_WINDOW, SYBIL_MIN_PER_HOUR: D.SYBIL_MIN_PER_HOUR, STREAK_MIN: D.STREAK_MIN },
   detectors, candidates, layering, poisoning, typologies, ladder, passthrough, fidelity };
 writeFileSync(resolve(dir, "report.json"), JSON.stringify(report, null, 2) + "\n");
@@ -263,7 +265,7 @@ writeFileSync(resolve(dir, "report.json"), JSON.stringify(report, null, 2) + "\n
 const pct = (x) => (x == null ? "n/a" : (100 * x).toFixed(1) + "%");
 const L = [];
 L.push("# Detector validation on synthetic labelled data: " + run.config.general.simulation_name, "",
-  "Generated " + run.generated_at.slice(0, 16).replace("T", " ") + " UTC, seed " + run.config.general.random_seed + ", " + run.counts.agents.toLocaleString("en-US") + " agents, " + run.counts.transfers.toLocaleString("en-US") + " transfers, " + run.counts.patterns + " injected patterns over " + run.config.general.total_steps + " steps of " + run.config.general.step_minutes + " min. Detectors imported from `" + pulseLabel + "` (run time " + detectorMs + " ms).", "",
+  "Generated " + run.generated_at.slice(0, 16).replace("T", " ") + " UTC, seed " + run.config.general.random_seed + ", " + run.counts.agents.toLocaleString("en-US") + " agents, " + run.counts.transfers.toLocaleString("en-US") + " transfers, " + run.counts.patterns + " injected patterns over " + run.config.general.total_steps + " steps of " + run.config.general.step_minutes + " min. Detectors imported from `" + pulseLabel + "` (run time " + detectorMs + " ms" + (LB.lookback ? ", drain rules looking back " + LB.lookback : "") + ").", "",
   "Synthetic data measures the rules, not the chain: every number below says how a detector behaves on shapes with known answers, and nothing about how often those shapes occur in the real ledger.", "",
   "## Detectors", "", "| detector | expected | hit | miss | false alarms | unexpected catches | precision | recall |", "|---|---|---|---|---|---|---|---|");
 for (const [k, d] of Object.entries(detectors)) L.push("| " + k + " | " + d.expected + " | " + d.hit + " | " + d.miss + " | " + d.false_alarm + " | " + d.unexpected_catch + " | " + pct(d.precision) + " | " + pct(d.recall) + " |");

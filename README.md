@@ -158,6 +158,30 @@ On the 20k run (re-validated 11 October after the query was rewritten with windo
 
 The live drain rule itself raised fewer false alarms on the hot run (6, 80.6%) than on the baseline (11, 69.4%): a hot wallet's one-off purchase is funded just before it and is less often five times its previous largest payment. That is a property of this generator's hot model, not a measurement of the chain.
 
+## What the evening of the second day found (11 October 2026, the "abandoned wallet" rule)
+
+On the live ledger the dominant-share candidate opens 44 windows all time. Reading them one by one, half are service payments (a payee paid by dozens of agents), a quarter are agents that kept paying other payees afterwards, and two are what a drain looks like: a stranger address took most of the wallet's outflow in 72 hours and the agent never paid anyone again. The question for a rule was whether two cheap filters, **the payee was paid by fewer than 10 agents** and **the agent paid no one else in the 30 days after the window**, keep those two and drop the rest without losing real drains.
+
+The generator could not answer that as it was: drains were always placed inside the last 30 days of the run, so "30 days after" never fit, and every synthetic victim kept trading after being drained because the background behaviour is generated first. Two options were added, both off by default so every earlier run is byte-identical (checked: the default config generates the same three files before and after the change):
+
+- `afg_rules.victim_silent_share`: that share of drain and slow-drain victims abandon the wallet; their later background payments are removed before balances are replayed, and the pattern record carries `victim_silent`.
+- `afg_rules.drain_place_window_days` and `drain_place_end_margin_days`: where in the run the drains land. `validate.mjs --lookback "60 days"` tells the drain rules to look that far back, since their live window is 30 days.
+
+`config/afg-2k-silence.json` is the hot-wallet population over 90 days with 20 slow drains placed 31 to 60 days before the end and half the victims silent. `measure-november-rule.mjs` scores the rule on a loaded run; `examples/silence-2026-10-11/` holds the report, the validator report and the run.
+
+| rule, on the silence run (20 slow drains, 9 silent victims) | hits | false alarms | precision | recall |
+|---|---|---|---|---|
+| dominant share alone | 20 of 20 | 2 (`x402_micro`) | 90.9% | 100% |
+| + payee paid by fewer than 10 agents | 20 of 20 | 1 | 95.2% | 100% |
+| + agent paid no one else in the next 30 days, all victims | 10 of 20 | 0 | 100% | 50% |
+| the same, scored on the 9 victims that abandoned the wallet | 9 of 9 | 0 | 100% | 100% |
+| the same, scored on the 11 victims that kept trading | 1 of 11 | 0 | 100% | 9% |
+| strict reading (only windows whose 30 days fit, 15 instances, 8 silent) | 8 of 8 silent, 1 of 7 that kept trading | 0 | 100% | 60% overall |
+
+The payer-count filter alone is worth having: on the 20k run it takes the dominant rule from 39 of 40 with 4 false alarms to 39 of 40 with 1 (97.5% precision), on the hot-wallet run from 9 of 10 with 1 to 9 of 10 with none. The silence filter is not a precision filter but a definition: it turns "a stranger took most of the outflow" into "a stranger took most of the outflow and the operator walked away", which is what the two live cases are. It finds every planted abandoned wallet and, by construction, none of the victims that were refunded and carried on. So the November rule is proposed as its own kind, *drain, wallet abandoned*, beside the drain rule, with the dominant-share windows that fail the silence test left as reading material rather than detections. On the live ledger it keeps 2 of the 44 windows.
+
+One more thing the check surfaced: the hot-wallet change of 11 October altered the default run's output (the funding cushion is drawn differently), so the weekly run of 18 October will not match `examples/afg-2k` byte for byte. The examples are dated and stay as they were generated; determinism holds for a fixed generator version, which is all it ever meant.
+
 ## Differences from AMLSim worth knowing
 
 - No Java simulator and no `networkx` 1.11; one Node process, a few seconds for thousands of agents.
