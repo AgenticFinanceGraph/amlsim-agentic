@@ -1,6 +1,6 @@
 # Detector validation on synthetic labelled data: afg-2k
 
-Generated 2026-10-10 11:08 UTC, seed 20261010, 2,813 agents, 66,900 transfers, 189 injected patterns over 1440 steps of 60 min. Detectors imported from `../pulse` (run time 225 ms).
+Generated 2026-10-10 11:08 UTC, seed 20261010, 2,813 agents, 66,900 transfers, 189 injected patterns over 1440 steps of 60 min. Detectors imported from `../pulse` (run time 564 ms).
 
 Synthetic data measures the rules, not the chain: every number below says how a detector behaves on shapes with known answers, and nothing about how often those shapes occur in the real ledger.
 
@@ -26,17 +26,20 @@ Proposed replacements, measured the same way. An unexpected catch here is a susp
 |---|---|---|---|---|---|---|---|---|
 | retry_storm_sliding_10min | retry_storm | 15 | 15 | 0 | 0 | 8 (retry_storm_straddle x8) | 100.0% | 100.0% |
 | mint_burst_sliding_60min | mint_burst | 6 | 6 | 0 | 0 | 0 | 100.0% | 100.0% |
+| retry_storm_island_10min | retry_storm | 15 | 15 | 0 | 0 | 8 (retry_storm_straddle x8) | 100.0% | 100.0% |
+| mint_burst_island_60min | mint_burst | 6 | 6 | 0 | 0 | 0 | 100.0% | 100.0% |
 | slow_drain_72h_sum | drain_pattern | 25 | 25 | 0 | 15 (x402_micro x1, periodical x3, purchase x11) | 11 (slow_drain x10, random x1) | 62.5% | 100.0% |
+| slow_drain_72h_dominant_share | drain_pattern | 10 | 10 | 0 | 1 (x402_micro x1) | 0 | 90.9% | 100.0% |
 | drain_emptied_80pct | drain_pattern | 25 | 25 | 0 | 0 | 0 | 100.0% | 100.0% |
 | slow_drain_72h_emptied_80pct | drain_pattern | 25 | 25 | 0 | 4 (x402_micro x1, periodical x3) | 10 (slow_drain x10) | 86.2% | 100.0% |
-| layering_cycle | cycle | 8 | 6 | 2 | 3 (normal x3) | 0 | 66.7% | 75.0% |
-| layering_cycle_wide | cycle | 8 | 6 | 2 | 3 (normal x3) | 0 | 66.7% | 75.0% |
+| layering_cycle | cycle | 8 | 8 | 0 | 3 (normal x3) | 0 | 72.7% | 100.0% |
+| layering_cycle_wide | cycle | 8 | 8 | 0 | 3 (normal x3) | 0 | 72.7% | 100.0% |
 | layering_scatter_gather | scatter_gather | 4 | 4 | 0 | 1 (normal x1) | 0 | 80.0% | 100.0% |
 | layering_gather_scatter | gather_scatter | 4 | 4 | 0 | 0 | 1 (stack x1) | 100.0% | 100.0% |
 | layering_fan_in_same_amount | fan_in | 6 | 6 | 0 | 0 | 4 (gather_scatter x4) | 100.0% | 100.0% |
 | layering_fan_out_same_amount | fan_out | 6 | 6 | 0 | 0 | 4 (gather_scatter x4) | 100.0% | 100.0% |
 
-Layering ran over 2,530 agent-to-agent edges (loaded in 60 ms; cycle 5 ms, cycle_wide 4 ms, scatter_gather 4 ms, gather_scatter 4 ms, fan_in_same_amount 1 ms, fan_out_same_amount 1 ms). A layering candidate's "expected" column counts the injected instances of that AMLSim shape.
+Layering ran over 2,530 agent-to-agent edges (loaded in 163 ms; cycle 8 ms, cycle_wide 19 ms, scatter_gather 7 ms, gather_scatter 5 ms, fan_in_same_amount 4 ms, fan_out_same_amount 2 ms). A layering candidate's "expected" column counts the injected instances of that AMLSim shape.
 
 ## Shapes
 
