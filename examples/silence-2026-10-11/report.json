@@ -1,0 +1,3288 @@
+{
+  "run": {
+    "random_seed": 20261011,
+    "simulation_name": "afg-2k-silence",
+    "total_steps": 2160,
+    "step_minutes": 60,
+    "base_date": "2026-08-11T00:00:00Z"
+  },
+  "generated_at": "2026-10-11T18:59:35.720Z",
+  "validated_at": "2026-10-11T19:02:24.134Z",
+  "as_of": "2026-11-09T00:00:00.000Z",
+  "detector_code": "../pulse",
+  "drain_lookback": "60 days",
+  "counts": {
+    "agents": 2796,
+    "transfers": 85261,
+    "patterns": 199,
+    "probes": 2190,
+    "counted_spending_usd": 1064590.47,
+    "routing_usd": 40918.06
+  },
+  "detector_ms": 213,
+  "rules": {
+    "DRAIN_MULT": 5,
+    "DRAIN_MIN_USD": 250,
+    "DRAIN_MIN_HISTORY": 3,
+    "DRAIN_LOOKBACK": "30 days",
+    "RETRY_MIN": 50,
+    "RETRY_WINDOW": "10 minutes",
+    "SYBIL_MIN_PER_HOUR": 25,
+    "STREAK_MIN": 5
+  },
+  "detectors": {
+    "drain_pattern": {
+      "expected": 25,
+      "hit": 25,
+      "miss": 0,
+      "false_alarm": 6,
+      "unexpected_catch": 0,
+      "precision": 0.806,
+      "recall": 1,
+      "detections": 31,
+      "false_alarms_by_shape": {
+        "purchase": 6
+      },
+      "unexpected_catches_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "drain_00062",
+            "actor": "act_8453_201764",
+            "tx": "0x9e02b3c4f67ceca79748ec7b170074cb0ae8ed215f9e5b51f89b6cb52235b8e9",
+            "usd": 314.71,
+            "previous_largest_usd": 2.96,
+            "prior_payments": 17,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00065",
+            "actor": "act_8453_200693",
+            "tx": "0x2d919b6bab3513e991e61ec6d82ddb25208c16b3f38a1b56b7923ae8da890f56",
+            "usd": 570.76,
+            "previous_largest_usd": 2.49,
+            "prior_payments": 4,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00059",
+            "actor": "act_8453_201632",
+            "tx": "0x288458a2125c14cecfa295cd5a8bb0a8032bfbf2d95ea743a7eda224aaaf628b",
+            "usd": 562.38,
+            "previous_largest_usd": 2.56,
+            "prior_payments": 5,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00060",
+            "actor": "act_8453_201085",
+            "tx": "0xca9d6ed8ca75da0776807abd2e466479e380ba24fcb55cb98d0912315b5e0104",
+            "usd": 1429.66,
+            "previous_largest_usd": 110.77,
+            "prior_payments": 4,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00041",
+            "actor": "act_8453_200811",
+            "tx": "0xee61fb6402d03f6a4d40200d7c967340621b291ec664210d9fc9415d4abe130d",
+            "usd": 608.38,
+            "previous_largest_usd": 94.13,
+            "prior_payments": 43,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00045",
+            "actor": "act_8453_200627",
+            "tx": "0x03a334cc01abe443a6003c75942ae9850dac6809cb822d1678b884f8c1cab740",
+            "usd": 465.56,
+            "previous_largest_usd": 2.76,
+            "prior_payments": 11,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00063",
+            "actor": "act_8453_201248",
+            "tx": "0x6e1aaf4e26041762ddcf33d57144d13c1ba4c285bbcb19e0e346d62fd4b6a5ff",
+            "usd": 974.28,
+            "previous_largest_usd": 107.39,
+            "prior_payments": 12,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00061",
+            "actor": "act_8453_200393",
+            "tx": "0xeae6305c6404bbd3dd3aba5d18db95ea1b032b3a18166d8cb2f61c26efcc9839",
+            "usd": 1071.72,
+            "previous_largest_usd": 94.89,
+            "prior_payments": 4,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00055",
+            "actor": "act_8453_200791",
+            "tx": "0xce7dfceea5daad3ba3fab75afc0e1aa9c299ea703ccaf8b2e050359a93a776c5",
+            "usd": 401.52,
+            "previous_largest_usd": 49.35,
+            "prior_payments": 3,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00053",
+            "actor": "act_8453_200302",
+            "tx": "0x410bbddcf23e1366701b269f87e1240af92798ecae468b823a84afcacd64427b",
+            "usd": 484.72,
+            "previous_largest_usd": 1.42,
+            "prior_payments": 6,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00052",
+            "actor": "act_8453_201020",
+            "tx": "0x325daa10e517bb605c7a7500488401a5463140d25872e8ae31ddca78f2aa73c3",
+            "usd": 669.78,
+            "previous_largest_usd": 100.6,
+            "prior_payments": 7,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00043",
+            "actor": "act_8453_201777",
+            "tx": "0x0b58795bf0cf1af6d20db2c2edf5c4bd3ce56bda146c205094dc77d1efcba9a6",
+            "usd": 582.63,
+            "previous_largest_usd": 2.92,
+            "prior_payments": 80,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00056",
+            "actor": "act_8453_201015",
+            "tx": "0xa45e80c5d1539d85f3f1dd9ab211f21b0e6f11502a85ff7d18ed616f5bd59421",
+            "usd": 681.89,
+            "previous_largest_usd": 2.95,
+            "prior_payments": 14,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00049",
+            "actor": "act_8453_201773",
+            "tx": "0x3f648afc34e4f43091f929ca9a90c8a0dcfd23baa7e7e48df5d69567748a1e1e",
+            "usd": 1091.51,
+            "previous_largest_usd": 96.92,
+            "prior_payments": 16,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00064",
+            "actor": "act_8453_201743",
+            "tx": "0x6710ad3a2cb7fa8a0b5158b1b9f15c71bb20756079c8771bf7de90ff15b2f705",
+            "usd": 576.03,
+            "previous_largest_usd": 2.6,
+            "prior_payments": 16,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00044",
+            "actor": "act_8453_201901",
+            "tx": "0x614e5b79f487d5c59ed83ab731c18b3f61327e8792de1ea8a8542d49abd8c8cb",
+            "usd": 1067.7,
+            "previous_largest_usd": 104.48,
+            "prior_payments": 17,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00054",
+            "actor": "act_8453_200115",
+            "tx": "0xe2147fa9c29feaa24bb145e767449b48d35297478af6b5d0023a1f3f6bcbd044",
+            "usd": 439.96,
+            "previous_largest_usd": 2.98,
+            "prior_payments": 36,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00058",
+            "actor": "act_8453_200414",
+            "tx": "0x4065d39513c7dc7ce328ad9a0ca5d6f7fcec4e7f39a5cd33924ffcce5f904fe8",
+            "usd": 750.61,
+            "previous_largest_usd": 110.19,
+            "prior_payments": 6,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00050",
+            "actor": "act_8453_200725",
+            "tx": "0xe97509899e233bc809885747fe32bdb4aaa5b0d14b822ba6c9287fe262e0b69e",
+            "usd": 486.22,
+            "previous_largest_usd": 81.78,
+            "prior_payments": 5,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00046",
+            "actor": "act_8453_200933",
+            "tx": "0xc37267376616fd3c9788975c52383e2af96f3a268703b3bc4518068e73581a19",
+            "usd": 880.59,
+            "previous_largest_usd": 104.85,
+            "prior_payments": 7,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00051",
+            "actor": "act_8453_201034",
+            "tx": "0x8976e0a32c7b9c258a6181ab51c6750970ca65163ba6eebfd57ab8b5b2e73f3a",
+            "usd": 721.55,
+            "previous_largest_usd": 91.71,
+            "prior_payments": 7,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00042",
+            "actor": "act_8453_201233",
+            "tx": "0x31707371f2d9fe9b68c73da4a3e1b103c4a5241095b186c4fa483e81350b8fe5",
+            "usd": 525.42,
+            "previous_largest_usd": 2.98,
+            "prior_payments": 13,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00048",
+            "actor": "act_8453_201325",
+            "tx": "0x9577fddbe6f48b0c8e8ebbba0473e6c8d7c32adc5832ecfee4d33f842ff69b8b",
+            "usd": 788.85,
+            "previous_largest_usd": 79.85,
+            "prior_payments": 5,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00057",
+            "actor": "act_8453_201972",
+            "tx": "0x3a884fb5192ddb31b9c00c3bb9abe782e6c4d070e2ed1f86c2dca67967c70d4a",
+            "usd": 841,
+            "previous_largest_usd": 112.51,
+            "prior_payments": 8,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00047",
+            "actor": "act_8453_200471",
+            "tx": "0x598d7b4648f5db007fcbef59d80ff1dff3f54cb0f5d3304cab996f6957672d85",
+            "usd": 894.8,
+            "previous_largest_usd": 105.03,
+            "prior_payments": 10,
+            "typology": "drain"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_200767",
+            "tx": "0xe4816a2b45d9cc95c8a24f1a85dd4083454d6c6c0d8d866a3e2b6bfd5c1f4aa4",
+            "usd": 430,
+            "previous_largest_usd": 2.98,
+            "prior_payments": 194
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201533",
+            "tx": "0x704922aadac3404c63e93d007f7b28dfc04f3effd5d4bf3cc12d4269300b07d1",
+            "usd": 440,
+            "previous_largest_usd": 70.66,
+            "prior_payments": 67
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_200224",
+            "tx": "0x43e65c31da8052a2b04409ea7ab6bf08191805541923ffac28633b7effd26f13",
+            "usd": 370,
+            "previous_largest_usd": 29.06,
+            "prior_payments": 32
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201341",
+            "tx": "0x90f27220960cee2c473b9865295e70f356df756e62844c61c8c2669c3f33efff",
+            "usd": 450,
+            "previous_largest_usd": 75.64,
+            "prior_payments": 67
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201730",
+            "tx": "0xb57402c7685cb26a692d01f81256e42860b72e18f8e3a51627df5fec6eed0b87",
+            "usd": 290,
+            "previous_largest_usd": 2.98,
+            "prior_payments": 27
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201221",
+            "tx": "0xa24d7617d153a4e70e889613f22dbbcdc36906bb5987d8e6e4c47d02f7aff5b9",
+            "usd": 390,
+            "previous_largest_usd": 70.51,
+            "prior_payments": 55
+          }
+        ],
+        "unexpected_catch": []
+      }
+    },
+    "retry_storm": {
+      "expected": 15,
+      "hit": 15,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 0,
+      "precision": 1,
+      "recall": 1,
+      "detections": 15,
+      "false_alarms_by_shape": {},
+      "unexpected_catches_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "retry_storm_00127",
+            "actor": "act_8453_201696",
+            "counterparty": "eip155:8453:0x2eeaae4bfd9b56677e0fd26de6e8e1d346268fd0",
+            "payments": 119,
+            "hour": "2026-09-17T14",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00131",
+            "actor": "act_8453_200251",
+            "counterparty": "eip155:8453:0x948559e10d8b018e361c7c4a13f8457ad33d7ccf",
+            "payments": 119,
+            "hour": "2026-10-31T08",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00134",
+            "actor": "act_8453_201227",
+            "counterparty": "eip155:8453:0x42c7dbcb07071436d73c104bf3d07b085ca0ce0c",
+            "payments": 119,
+            "hour": "2026-11-08T08",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00130",
+            "actor": "act_8453_200154",
+            "counterparty": "eip155:8453:0xc5f2ce326bd33318625058067c7609dd41d22413",
+            "payments": 117,
+            "hour": "2026-09-23T19",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00121",
+            "actor": "act_8453_201910",
+            "counterparty": "eip155:8453:0x4a1d8ad8f5ec98d980c724eff8510c40945403ea",
+            "payments": 113,
+            "hour": "2026-10-30T11",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00122",
+            "actor": "act_8453_201862",
+            "counterparty": "eip155:8453:0xa0cb0c5cf307c12a8678995a195f280eb37342ee",
+            "payments": 111,
+            "hour": "2026-11-06T10",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00126",
+            "actor": "act_8453_200535",
+            "counterparty": "eip155:8453:0x2e2646f538fbe41bd23d2a53d60bffddbd2850ab",
+            "payments": 101,
+            "hour": "2026-10-25T06",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00132",
+            "actor": "act_8453_200198",
+            "counterparty": "eip155:8453:0x2bbb0c28a52f3ffa6dc0b3a99482c6da4115c9c4",
+            "payments": 100,
+            "hour": "2026-11-04T10",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00125",
+            "actor": "act_8453_201189",
+            "counterparty": "eip155:8453:0x16566b322ec8ec838c8f64bf401998bcff7fe28e",
+            "payments": 89,
+            "hour": "2026-11-01T04",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00124",
+            "actor": "act_8453_201198",
+            "counterparty": "eip155:8453:0xbb85b736e187713029e83e8e98813f5187ace5fe",
+            "payments": 83,
+            "hour": "2026-10-29T14",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00123",
+            "actor": "act_8453_201949",
+            "counterparty": "eip155:8453:0xf88252e49e9ad475424553a7f632cd2f2f7faaac",
+            "payments": 71,
+            "hour": "2026-10-12T10",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00135",
+            "actor": "act_8453_200002",
+            "counterparty": "eip155:8453:0x79cf8fc6d4227269f888386020a25b8a61dae68e",
+            "payments": 69,
+            "hour": "2026-10-20T11",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00128",
+            "actor": "act_8453_200905",
+            "counterparty": "eip155:8453:0xdf07ae7311ad8786d9993c481d7d0bd1b3f8ac67",
+            "payments": 65,
+            "hour": "2026-10-12T10",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00129",
+            "actor": "act_8453_201030",
+            "counterparty": "eip155:8453:0x9586045d2b79a89add5069237214232b3e9f11f2",
+            "payments": 59,
+            "hour": "2026-10-29T13",
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00133",
+            "actor": "act_8453_200684",
+            "counterparty": "eip155:8453:0xb8cdbdc48f5ffedb6e84bf1ff569dc979d097cac",
+            "payments": 54,
+            "hour": "2026-10-01T21",
+            "typology": "retry_storm"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": []
+      }
+    },
+    "mint_burst": {
+      "expected": 6,
+      "hit": 6,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 0,
+      "precision": 1,
+      "recall": 1,
+      "detections": 6,
+      "false_alarms_by_shape": {},
+      "unexpected_catches_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "mint_burst_00153",
+            "minter": "0x1b60b044d3c3e49edf2983acdbc2b5941d6a949d",
+            "hour": "2026-09-11T05",
+            "registrations": 199
+          },
+          {
+            "instance": "mint_burst_00155",
+            "minter": "0xef495d000444b960bb03a2c7e375d94888ac53b7",
+            "hour": "2026-09-04T19",
+            "registrations": 184
+          },
+          {
+            "instance": "mint_burst_00156",
+            "minter": "0x4b3222bbc74c63a5c3497f20d11dd710ec14a421",
+            "hour": "2026-10-03T08",
+            "registrations": 118
+          },
+          {
+            "instance": "mint_burst_00154",
+            "minter": "0xa1d81554623965ee1ab64f471de9d5c85ffda9fd",
+            "hour": "2026-10-18T18",
+            "registrations": 56
+          },
+          {
+            "instance": "mint_burst_00157",
+            "minter": "0xafa9f92c09fd6488edab12b98cd9915c0eedce0a",
+            "hour": "2026-09-23T12",
+            "registrations": 43
+          },
+          {
+            "instance": "mint_burst_00152",
+            "minter": "0x0dcdb58dba5b49dad0dceace2e240ea37cb45bb9",
+            "hour": "2026-08-22T09",
+            "registrations": 41
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": []
+      }
+    },
+    "uri_timeout_streak": {
+      "expected": 12,
+      "hit": 12,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 0,
+      "precision": 1,
+      "recall": 1,
+      "detections": 12,
+      "false_alarms_by_shape": {},
+      "unexpected_catches_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "uri_timeout_streak_00166",
+            "actor": "act_8453_201833",
+            "failed_probes": 13
+          },
+          {
+            "instance": "uri_timeout_streak_00173",
+            "actor": "act_8453_200022",
+            "failed_probes": 12
+          },
+          {
+            "instance": "uri_timeout_streak_00165",
+            "actor": "act_8453_201846",
+            "failed_probes": 12
+          },
+          {
+            "instance": "uri_timeout_streak_00171",
+            "actor": "act_8453_200883",
+            "failed_probes": 12
+          },
+          {
+            "instance": "uri_timeout_streak_00169",
+            "actor": "act_8453_200541",
+            "failed_probes": 12
+          },
+          {
+            "instance": "uri_timeout_streak_00170",
+            "actor": "act_8453_201200",
+            "failed_probes": 11
+          },
+          {
+            "instance": "uri_timeout_streak_00172",
+            "actor": "act_8453_200072",
+            "failed_probes": 10
+          },
+          {
+            "instance": "uri_timeout_streak_00162",
+            "actor": "act_8453_201394",
+            "failed_probes": 9
+          },
+          {
+            "instance": "uri_timeout_streak_00164",
+            "actor": "act_8453_200829",
+            "failed_probes": 8
+          },
+          {
+            "instance": "uri_timeout_streak_00167",
+            "actor": "act_8453_200889",
+            "failed_probes": 7
+          },
+          {
+            "instance": "uri_timeout_streak_00163",
+            "actor": "act_8453_200011",
+            "failed_probes": 7
+          },
+          {
+            "instance": "uri_timeout_streak_00168",
+            "actor": "act_8453_200150",
+            "failed_probes": 5
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": []
+      }
+    }
+  },
+  "candidates": {
+    "retry_storm_sliding_10min": {
+      "kind": "retry_storm",
+      "expected": 15,
+      "hit": 15,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 8,
+      "precision": 1,
+      "recall": 1,
+      "detections": 23,
+      "unexpected_catches_by_shape": {
+        "retry_storm_straddle": 8
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "retry_storm_00134",
+            "actor": "act_8453_201227",
+            "counterparty": "eip155:8453:0x42c7dbcb07071436d73c104bf3d07b085ca0ce0c",
+            "payments": 119,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00131",
+            "actor": "act_8453_200251",
+            "counterparty": "eip155:8453:0x948559e10d8b018e361c7c4a13f8457ad33d7ccf",
+            "payments": 119,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00127",
+            "actor": "act_8453_201696",
+            "counterparty": "eip155:8453:0x2eeaae4bfd9b56677e0fd26de6e8e1d346268fd0",
+            "payments": 119,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00130",
+            "actor": "act_8453_200154",
+            "counterparty": "eip155:8453:0xc5f2ce326bd33318625058067c7609dd41d22413",
+            "payments": 117,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00121",
+            "actor": "act_8453_201910",
+            "counterparty": "eip155:8453:0x4a1d8ad8f5ec98d980c724eff8510c40945403ea",
+            "payments": 113,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00122",
+            "actor": "act_8453_201862",
+            "counterparty": "eip155:8453:0xa0cb0c5cf307c12a8678995a195f280eb37342ee",
+            "payments": 111,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00126",
+            "actor": "act_8453_200535",
+            "counterparty": "eip155:8453:0x2e2646f538fbe41bd23d2a53d60bffddbd2850ab",
+            "payments": 101,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00132",
+            "actor": "act_8453_200198",
+            "counterparty": "eip155:8453:0x2bbb0c28a52f3ffa6dc0b3a99482c6da4115c9c4",
+            "payments": 100,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00125",
+            "actor": "act_8453_201189",
+            "counterparty": "eip155:8453:0x16566b322ec8ec838c8f64bf401998bcff7fe28e",
+            "payments": 89,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00124",
+            "actor": "act_8453_201198",
+            "counterparty": "eip155:8453:0xbb85b736e187713029e83e8e98813f5187ace5fe",
+            "payments": 83,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00123",
+            "actor": "act_8453_201949",
+            "counterparty": "eip155:8453:0xf88252e49e9ad475424553a7f632cd2f2f7faaac",
+            "payments": 71,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00135",
+            "actor": "act_8453_200002",
+            "counterparty": "eip155:8453:0x79cf8fc6d4227269f888386020a25b8a61dae68e",
+            "payments": 69,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00128",
+            "actor": "act_8453_200905",
+            "counterparty": "eip155:8453:0xdf07ae7311ad8786d9993c481d7d0bd1b3f8ac67",
+            "payments": 65,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00129",
+            "actor": "act_8453_201030",
+            "counterparty": "eip155:8453:0x9586045d2b79a89add5069237214232b3e9f11f2",
+            "payments": 59,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00133",
+            "actor": "act_8453_200684",
+            "counterparty": "eip155:8453:0xb8cdbdc48f5ffedb6e84bf1ff569dc979d097cac",
+            "payments": 54,
+            "typology": "retry_storm"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "retry_storm_straddle_00145",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200052",
+            "counterparty": "eip155:8453:0x5c313d52c478aa744ce3d716b80cac8c6bad6303",
+            "payments": 66
+          },
+          {
+            "instance": "retry_storm_straddle_00149",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_201375",
+            "counterparty": "eip155:8453:0xa17659a061177f609cf929f757896b740bdb48dc",
+            "payments": 66
+          },
+          {
+            "instance": "retry_storm_straddle_00151",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200720",
+            "counterparty": "eip155:8453:0xdb84b808a4581ec0cdd7186e5ac17c7ae2758270",
+            "payments": 64
+          },
+          {
+            "instance": "retry_storm_straddle_00144",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_201969",
+            "counterparty": "eip155:8453:0x0558c24af26385899015dabeb9d26d2b146a3f88",
+            "payments": 60
+          },
+          {
+            "instance": "retry_storm_straddle_00147",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_201463",
+            "counterparty": "eip155:8453:0xf6bc120cec0b342cbca088e2b4a28c7d08be3f6f",
+            "payments": 58
+          },
+          {
+            "instance": "retry_storm_straddle_00148",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200347",
+            "counterparty": "eip155:8453:0x4a19a29a1a489f7e1a0e2bf778005a7300b4c48c",
+            "payments": 57
+          },
+          {
+            "instance": "retry_storm_straddle_00146",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200899",
+            "counterparty": "eip155:8453:0x077b3795653a3ddeaab250e1a63d9cd13ad5e30a",
+            "payments": 56
+          },
+          {
+            "instance": "retry_storm_straddle_00150",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200348",
+            "counterparty": "eip155:8453:0xa288b1868306992f50122bfb9b70a397dd19df19",
+            "payments": 54
+          }
+        ]
+      }
+    },
+    "mint_burst_sliding_60min": {
+      "kind": "mint_burst",
+      "expected": 6,
+      "hit": 6,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 0,
+      "precision": 1,
+      "recall": 1,
+      "detections": 6,
+      "unexpected_catches_by_shape": {},
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "mint_burst_00153",
+            "minter": "0x1b60b044d3c3e49edf2983acdbc2b5941d6a949d",
+            "registrations": 199
+          },
+          {
+            "instance": "mint_burst_00155",
+            "minter": "0xef495d000444b960bb03a2c7e375d94888ac53b7",
+            "registrations": 184
+          },
+          {
+            "instance": "mint_burst_00156",
+            "minter": "0x4b3222bbc74c63a5c3497f20d11dd710ec14a421",
+            "registrations": 118
+          },
+          {
+            "instance": "mint_burst_00154",
+            "minter": "0xa1d81554623965ee1ab64f471de9d5c85ffda9fd",
+            "registrations": 56
+          },
+          {
+            "instance": "mint_burst_00157",
+            "minter": "0xafa9f92c09fd6488edab12b98cd9915c0eedce0a",
+            "registrations": 43
+          },
+          {
+            "instance": "mint_burst_00152",
+            "minter": "0x0dcdb58dba5b49dad0dceace2e240ea37cb45bb9",
+            "registrations": 41
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": []
+      }
+    },
+    "retry_storm_island_10min": {
+      "kind": "retry_storm",
+      "expected": 15,
+      "hit": 15,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 8,
+      "precision": 1,
+      "recall": 1,
+      "detections": 23,
+      "unexpected_catches_by_shape": {
+        "retry_storm_straddle": 8
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "retry_storm_00131",
+            "actor": "act_8453_200251",
+            "counterparty": "eip155:8453:0x948559e10d8b018e361c7c4a13f8457ad33d7ccf",
+            "payments": 119,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00134",
+            "actor": "act_8453_201227",
+            "counterparty": "eip155:8453:0x42c7dbcb07071436d73c104bf3d07b085ca0ce0c",
+            "payments": 119,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00127",
+            "actor": "act_8453_201696",
+            "counterparty": "eip155:8453:0x2eeaae4bfd9b56677e0fd26de6e8e1d346268fd0",
+            "payments": 119,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00130",
+            "actor": "act_8453_200154",
+            "counterparty": "eip155:8453:0xc5f2ce326bd33318625058067c7609dd41d22413",
+            "payments": 117,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00121",
+            "actor": "act_8453_201910",
+            "counterparty": "eip155:8453:0x4a1d8ad8f5ec98d980c724eff8510c40945403ea",
+            "payments": 113,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00122",
+            "actor": "act_8453_201862",
+            "counterparty": "eip155:8453:0xa0cb0c5cf307c12a8678995a195f280eb37342ee",
+            "payments": 111,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00126",
+            "actor": "act_8453_200535",
+            "counterparty": "eip155:8453:0x2e2646f538fbe41bd23d2a53d60bffddbd2850ab",
+            "payments": 101,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00132",
+            "actor": "act_8453_200198",
+            "counterparty": "eip155:8453:0x2bbb0c28a52f3ffa6dc0b3a99482c6da4115c9c4",
+            "payments": 100,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00125",
+            "actor": "act_8453_201189",
+            "counterparty": "eip155:8453:0x16566b322ec8ec838c8f64bf401998bcff7fe28e",
+            "payments": 89,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00124",
+            "actor": "act_8453_201198",
+            "counterparty": "eip155:8453:0xbb85b736e187713029e83e8e98813f5187ace5fe",
+            "payments": 83,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00123",
+            "actor": "act_8453_201949",
+            "counterparty": "eip155:8453:0xf88252e49e9ad475424553a7f632cd2f2f7faaac",
+            "payments": 71,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00135",
+            "actor": "act_8453_200002",
+            "counterparty": "eip155:8453:0x79cf8fc6d4227269f888386020a25b8a61dae68e",
+            "payments": 69,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00128",
+            "actor": "act_8453_200905",
+            "counterparty": "eip155:8453:0xdf07ae7311ad8786d9993c481d7d0bd1b3f8ac67",
+            "payments": 65,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00129",
+            "actor": "act_8453_201030",
+            "counterparty": "eip155:8453:0x9586045d2b79a89add5069237214232b3e9f11f2",
+            "payments": 59,
+            "typology": "retry_storm"
+          },
+          {
+            "instance": "retry_storm_00133",
+            "actor": "act_8453_200684",
+            "counterparty": "eip155:8453:0xb8cdbdc48f5ffedb6e84bf1ff569dc979d097cac",
+            "payments": 54,
+            "typology": "retry_storm"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "retry_storm_straddle_00149",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_201375",
+            "counterparty": "eip155:8453:0xa17659a061177f609cf929f757896b740bdb48dc",
+            "payments": 66
+          },
+          {
+            "instance": "retry_storm_straddle_00145",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200052",
+            "counterparty": "eip155:8453:0x5c313d52c478aa744ce3d716b80cac8c6bad6303",
+            "payments": 66
+          },
+          {
+            "instance": "retry_storm_straddle_00151",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200720",
+            "counterparty": "eip155:8453:0xdb84b808a4581ec0cdd7186e5ac17c7ae2758270",
+            "payments": 64
+          },
+          {
+            "instance": "retry_storm_straddle_00144",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_201969",
+            "counterparty": "eip155:8453:0x0558c24af26385899015dabeb9d26d2b146a3f88",
+            "payments": 60
+          },
+          {
+            "instance": "retry_storm_straddle_00147",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_201463",
+            "counterparty": "eip155:8453:0xf6bc120cec0b342cbca088e2b4a28c7d08be3f6f",
+            "payments": 58
+          },
+          {
+            "instance": "retry_storm_straddle_00148",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200347",
+            "counterparty": "eip155:8453:0x4a19a29a1a489f7e1a0e2bf778005a7300b4c48c",
+            "payments": 57
+          },
+          {
+            "instance": "retry_storm_straddle_00146",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200899",
+            "counterparty": "eip155:8453:0x077b3795653a3ddeaab250e1a63d9cd13ad5e30a",
+            "payments": 56
+          },
+          {
+            "instance": "retry_storm_straddle_00150",
+            "typology": "retry_storm_straddle",
+            "actor": "act_8453_200348",
+            "counterparty": "eip155:8453:0xa288b1868306992f50122bfb9b70a397dd19df19",
+            "payments": 54
+          }
+        ]
+      }
+    },
+    "mint_burst_island_60min": {
+      "kind": "mint_burst",
+      "expected": 6,
+      "hit": 6,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 0,
+      "precision": 1,
+      "recall": 1,
+      "detections": 6,
+      "unexpected_catches_by_shape": {},
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "mint_burst_00153",
+            "minter": "0x1b60b044d3c3e49edf2983acdbc2b5941d6a949d",
+            "registrations": 199
+          },
+          {
+            "instance": "mint_burst_00155",
+            "minter": "0xef495d000444b960bb03a2c7e375d94888ac53b7",
+            "registrations": 184
+          },
+          {
+            "instance": "mint_burst_00156",
+            "minter": "0x4b3222bbc74c63a5c3497f20d11dd710ec14a421",
+            "registrations": 118
+          },
+          {
+            "instance": "mint_burst_00154",
+            "minter": "0xa1d81554623965ee1ab64f471de9d5c85ffda9fd",
+            "registrations": 56
+          },
+          {
+            "instance": "mint_burst_00157",
+            "minter": "0xafa9f92c09fd6488edab12b98cd9915c0eedce0a",
+            "registrations": 43
+          },
+          {
+            "instance": "mint_burst_00152",
+            "minter": "0x0dcdb58dba5b49dad0dceace2e240ea37cb45bb9",
+            "registrations": 41
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": []
+      }
+    },
+    "slow_drain_72h_sum": {
+      "kind": "drain_pattern",
+      "expected": 25,
+      "hit": 25,
+      "miss": 0,
+      "false_alarm": 10,
+      "unexpected_catch": 20,
+      "precision": 0.714,
+      "recall": 1,
+      "detections": 55,
+      "unexpected_catches_by_shape": {
+        "slow_drain": 20
+      },
+      "false_alarms_by_shape": {
+        "periodical": 2,
+        "purchase": 6,
+        "x402_micro": 2
+      },
+      "detail": {
+        "hit": [
+          {
+            "instance": "drain_00060",
+            "actor": "act_8453_201085",
+            "payee": "eip155:8453:0xce6c96284b66088790e377bfb1744524d6f6d8bb",
+            "usd": 1429.66,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00049",
+            "actor": "act_8453_201773",
+            "payee": "eip155:8453:0xd467d8569a397e5fca5b76843e84cebf571148ef",
+            "usd": 1091.51,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00061",
+            "actor": "act_8453_200393",
+            "payee": "eip155:8453:0x5913ddb80865b33ffa404fadc2225daf522fed06",
+            "usd": 1071.72,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00044",
+            "actor": "act_8453_201901",
+            "payee": "eip155:8453:0xaeb916ab3ca626005f2734d110655960f99c44a9",
+            "usd": 1067.7,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00063",
+            "actor": "act_8453_201248",
+            "payee": "eip155:8453:0xc0e1f8f241c604c5f67ee71df6226affbad6ec8b",
+            "usd": 974.28,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00047",
+            "actor": "act_8453_200471",
+            "payee": "eip155:8453:0x5a33e644c7a44cdb2cc9b1466280ce23eff62ec9",
+            "usd": 894.8,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00046",
+            "actor": "act_8453_200933",
+            "payee": "eip155:8453:0xa8a86d159b497c9bd17afd98455ce4503b27b6a7",
+            "usd": 880.59,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00057",
+            "actor": "act_8453_201972",
+            "payee": "eip155:8453:0xc9933ed748fa124732c3eb52174403e12807e606",
+            "usd": 841,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00048",
+            "actor": "act_8453_201325",
+            "payee": "eip155:8453:0x354db5b99807a7270e3c3b8d3356a687d0f69835",
+            "usd": 788.85,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00058",
+            "actor": "act_8453_200414",
+            "payee": "eip155:8453:0x0bc9b4769db2ea84136e48fd4d60157a63fefadb",
+            "usd": 750.61,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00051",
+            "actor": "act_8453_201034",
+            "payee": "eip155:8453:0xbdbc61a73c0290b1768a03bdcf09bd484ec18ed1",
+            "usd": 721.55,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00056",
+            "actor": "act_8453_201015",
+            "payee": "eip155:8453:0xe52d05b9f3a200a3a6fd03b2ce6379742d758460",
+            "usd": 681.89,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00052",
+            "actor": "act_8453_201020",
+            "payee": "eip155:8453:0x7a03f3fd779f2de18c07f6d2b9380c1b683f718e",
+            "usd": 669.78,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00041",
+            "actor": "act_8453_200811",
+            "payee": "eip155:8453:0x8db6f3154fcebcbb880c756310072827d132cc0c",
+            "usd": 608.38,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00043",
+            "actor": "act_8453_201777",
+            "payee": "eip155:8453:0x5face23b077f1acc3e7d1a6ff2bbba09809b62c7",
+            "usd": 582.63,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00064",
+            "actor": "act_8453_201743",
+            "payee": "eip155:8453:0x1af55a3f9029a4762f49d90642b85d3be437bb5d",
+            "usd": 576.03,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00065",
+            "actor": "act_8453_200693",
+            "payee": "eip155:8453:0xdbf85f7e9310cdf4b384bfcc135a5c5ed056f222",
+            "usd": 570.76,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00059",
+            "actor": "act_8453_201632",
+            "payee": "eip155:8453:0xcba84e80d98030ed6d348f38bc0ae002f91af248",
+            "usd": 562.38,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00042",
+            "actor": "act_8453_201233",
+            "payee": "eip155:8453:0x3f062cf1077a3dd06313e0916910689b92bf02ad",
+            "usd": 525.42,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00050",
+            "actor": "act_8453_200725",
+            "payee": "eip155:8453:0xfe3535998615e67c8bbd493f4e307d8350ea8379",
+            "usd": 486.22,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00053",
+            "actor": "act_8453_200302",
+            "payee": "eip155:8453:0xc6461c06ef97049248134b1750e78a626d867829",
+            "usd": 484.72,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00045",
+            "actor": "act_8453_200627",
+            "payee": "eip155:8453:0x7d7c16f333fb2b9432ebf8a49c0b30a4ed951268",
+            "usd": 465.56,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00054",
+            "actor": "act_8453_200115",
+            "payee": "eip155:8453:0x32c50fd98b803eddf756caf26ae03577185451a9",
+            "usd": 439.96,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00055",
+            "actor": "act_8453_200791",
+            "payee": "eip155:8453:0x9118ef561abf3985c9d7f20cfe1ed0a98d61edfb",
+            "usd": 401.52,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00062",
+            "actor": "act_8453_201764",
+            "payee": "eip155:8453:0x986da1d2c93870fb852f1b45027f0bf17654c6a7",
+            "usd": 314.71,
+            "payments": 1,
+            "typology": "drain"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [
+          {
+            "instance": null,
+            "typology": "periodical",
+            "actor": "act_8453_200561",
+            "payee": "eip155:8453:0x62e0c769fff7ca85f27d500e43210b9d5803b9c7",
+            "usd": 647.91,
+            "payments": 7
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201341",
+            "payee": "eip155:8453:0xb38be1f2a7e6472cb8d5392667b2a0b9cb6bbd96",
+            "usd": 450,
+            "payments": 1
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201533",
+            "payee": "eip155:8453:0x14f77e7b1816c4276ddc8cbe4656383d42748f2f",
+            "usd": 440,
+            "payments": 1
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_200767",
+            "payee": "eip155:8453:0x922cc1901d8aede1b8f19722ef22c3022a9bc770",
+            "usd": 430,
+            "payments": 1
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201221",
+            "payee": "eip155:8453:0xbc72c6ffbe423c311eae26ee35679f6c294b0d31",
+            "usd": 390,
+            "payments": 1
+          },
+          {
+            "instance": null,
+            "typology": "periodical",
+            "actor": "act_8453_201907",
+            "payee": "eip155:8453:0xca1d590a443f795dba614a6e89e6adbc91e445dc",
+            "usd": 383,
+            "payments": 4
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_200224",
+            "payee": "eip155:8453:0x34a6890734d5d99084b802d1375261ea22c9a816",
+            "usd": 370,
+            "payments": 1
+          },
+          {
+            "instance": null,
+            "typology": "x402_micro",
+            "actor": "act_8453_201080",
+            "payee": "eip155:8453:0xd90a08a51b646e98d2650eae953f52521760f32d",
+            "usd": 335,
+            "payments": 3
+          },
+          {
+            "instance": null,
+            "typology": "x402_micro",
+            "actor": "act_8453_200007",
+            "payee": "eip155:8453:0x9f2dafd5784cca4dd4713e3c50fa2693228b4816",
+            "usd": 327,
+            "payments": 4
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201730",
+            "payee": "eip155:8453:0x63680b671e6d9cfc6b3ff85911e1ca185166aab5",
+            "usd": 290,
+            "payments": 1
+          }
+        ],
+        "unexpected_catch": [
+          {
+            "instance": "slow_drain_00104",
+            "typology": "slow_drain",
+            "actor": "act_8453_200777",
+            "payee": "eip155:8453:0x38c6e3d52e32c8801147498d466fd308d39b347e",
+            "usd": 176454.99,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00086",
+            "typology": "slow_drain",
+            "actor": "act_8453_201528",
+            "payee": "eip155:8453:0x0e10688bed24dda305f19071ad1b3deadc091e21",
+            "usd": 95657.23,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00098",
+            "typology": "slow_drain",
+            "actor": "act_8453_200890",
+            "payee": "eip155:8453:0x4a264c294307ea3f304b50be1a2513d011716947",
+            "usd": 91950.61,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00095",
+            "typology": "slow_drain",
+            "actor": "act_8453_201125",
+            "payee": "eip155:8453:0x9695cbc00249bc30fa5a69b87fc0fc7a8f527290",
+            "usd": 55582.04,
+            "payments": 5
+          },
+          {
+            "instance": "slow_drain_00097",
+            "typology": "slow_drain",
+            "actor": "act_8453_201108",
+            "payee": "eip155:8453:0x201d28642b61e293e6e76e07f07b323792c4ec60",
+            "usd": 53332.55,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00090",
+            "typology": "slow_drain",
+            "actor": "act_8453_201402",
+            "payee": "eip155:8453:0x626a8b4fb7ed5b752e145e4dd07b756e0456c8bb",
+            "usd": 39004.25,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00096",
+            "typology": "slow_drain",
+            "actor": "act_8453_201433",
+            "payee": "eip155:8453:0xdb7fc8373aa3e3f1dfc3dd42914a5e9a2982683f",
+            "usd": 27753.06,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00102",
+            "typology": "slow_drain",
+            "actor": "act_8453_201117",
+            "payee": "eip155:8453:0x19329b6e23af9797db7b6c9bff5680d07f83caf7",
+            "usd": 27281.93,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00105",
+            "typology": "slow_drain",
+            "actor": "act_8453_201887",
+            "payee": "eip155:8453:0xaae384856ff0e6f23e98382c1d2aeb3542a8dbac",
+            "usd": 24822.07,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00091",
+            "typology": "slow_drain",
+            "actor": "act_8453_200726",
+            "payee": "eip155:8453:0x7fa20673c443cbc527a8fae790acc50ad1334e7e",
+            "usd": 14491.5,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00092",
+            "typology": "slow_drain",
+            "actor": "act_8453_201873",
+            "payee": "eip155:8453:0xf9c5e28868bf88c156c9bf5ccbffc815e5d29277",
+            "usd": 8629.87,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00103",
+            "typology": "slow_drain",
+            "actor": "act_8453_201418",
+            "payee": "eip155:8453:0xaf4568c80515c2bf2c2f0d6b3d814a97dfaf9ef1",
+            "usd": 6715.63,
+            "payments": 5
+          },
+          {
+            "instance": "slow_drain_00087",
+            "typology": "slow_drain",
+            "actor": "act_8453_200999",
+            "payee": "eip155:8453:0x56e426840e7300db4efa2a5fa0f037e013cf3e4f",
+            "usd": 5844.26,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00099",
+            "typology": "slow_drain",
+            "actor": "act_8453_200248",
+            "payee": "eip155:8453:0xed850e0bce16f922972596ec159eb75782dd6014",
+            "usd": 5591.28,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00088",
+            "typology": "slow_drain",
+            "actor": "act_8453_201158",
+            "payee": "eip155:8453:0x47c19bf0090f98a0580db02066783b1dbe62c87a",
+            "usd": 4545.59,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00100",
+            "typology": "slow_drain",
+            "actor": "act_8453_200137",
+            "payee": "eip155:8453:0x0cec102a110c52954e3b5ddb6edc3a229bfe4161",
+            "usd": 4231.9,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00093",
+            "typology": "slow_drain",
+            "actor": "act_8453_200255",
+            "payee": "eip155:8453:0xc93a9227dab6889ec0eb810b8b9210995f53c6ed",
+            "usd": 3692.06,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00101",
+            "typology": "slow_drain",
+            "actor": "act_8453_201275",
+            "payee": "eip155:8453:0xf2ca65fec2d68699c55024ff1f3990a7e5b8dad2",
+            "usd": 3476.55,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00089",
+            "typology": "slow_drain",
+            "actor": "act_8453_200513",
+            "payee": "eip155:8453:0x3ad37708fe37c7e08e0aea63398e891d89545acd",
+            "usd": 1614.25,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00094",
+            "typology": "slow_drain",
+            "actor": "act_8453_201559",
+            "payee": "eip155:8453:0xb662fbfbe66b8162b9702236b8ac758972cbe886",
+            "usd": 283.3,
+            "payments": 5
+          }
+        ]
+      }
+    },
+    "slow_drain_72h_dominant_share": {
+      "kind": "drain_pattern",
+      "expected": 20,
+      "hit": 20,
+      "miss": 0,
+      "false_alarm": 2,
+      "unexpected_catch": 0,
+      "precision": 0.909,
+      "recall": 1,
+      "detections": 22,
+      "unexpected_catches_by_shape": {},
+      "false_alarms_by_shape": {
+        "x402_micro": 2
+      },
+      "detail": {
+        "hit": [
+          {
+            "instance": "slow_drain_00104",
+            "actor": "act_8453_200777",
+            "payee": "eip155:8453:0x38c6e3d52e32c8801147498d466fd308d39b347e",
+            "usd": 176454.99,
+            "payments": 6,
+            "sink_share": 1,
+            "amount_cv": 1.455,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00086",
+            "actor": "act_8453_201528",
+            "payee": "eip155:8453:0x0e10688bed24dda305f19071ad1b3deadc091e21",
+            "usd": 95657.23,
+            "payments": 6,
+            "sink_share": 1,
+            "amount_cv": 1.595,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00098",
+            "actor": "act_8453_200890",
+            "payee": "eip155:8453:0x4a264c294307ea3f304b50be1a2513d011716947",
+            "usd": 91950.61,
+            "payments": 6,
+            "sink_share": 1,
+            "amount_cv": 1.46,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00095",
+            "actor": "act_8453_201125",
+            "payee": "eip155:8453:0x9695cbc00249bc30fa5a69b87fc0fc7a8f527290",
+            "usd": 55582.04,
+            "payments": 5,
+            "sink_share": 1,
+            "amount_cv": 1.564,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00097",
+            "actor": "act_8453_201108",
+            "payee": "eip155:8453:0x201d28642b61e293e6e76e07f07b323792c4ec60",
+            "usd": 53332.55,
+            "payments": 6,
+            "sink_share": 0.998,
+            "amount_cv": 1.694,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00090",
+            "actor": "act_8453_201402",
+            "payee": "eip155:8453:0x626a8b4fb7ed5b752e145e4dd07b756e0456c8bb",
+            "usd": 39004.25,
+            "payments": 6,
+            "sink_share": 0.997,
+            "amount_cv": 1.389,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00096",
+            "actor": "act_8453_201433",
+            "payee": "eip155:8453:0xdb7fc8373aa3e3f1dfc3dd42914a5e9a2982683f",
+            "usd": 27753.06,
+            "payments": 6,
+            "sink_share": 0.998,
+            "amount_cv": 1.567,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00102",
+            "actor": "act_8453_201117",
+            "payee": "eip155:8453:0x19329b6e23af9797db7b6c9bff5680d07f83caf7",
+            "usd": 27281.93,
+            "payments": 6,
+            "sink_share": 0.999,
+            "amount_cv": 1.467,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00105",
+            "actor": "act_8453_201887",
+            "payee": "eip155:8453:0xaae384856ff0e6f23e98382c1d2aeb3542a8dbac",
+            "usd": 24822.07,
+            "payments": 4,
+            "sink_share": 0.999,
+            "amount_cv": 1.379,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00091",
+            "actor": "act_8453_200726",
+            "payee": "eip155:8453:0x7fa20673c443cbc527a8fae790acc50ad1334e7e",
+            "usd": 14491.5,
+            "payments": 4,
+            "sink_share": 1,
+            "amount_cv": 1.162,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00092",
+            "actor": "act_8453_201873",
+            "payee": "eip155:8453:0xf9c5e28868bf88c156c9bf5ccbffc815e5d29277",
+            "usd": 8629.87,
+            "payments": 6,
+            "sink_share": 1,
+            "amount_cv": 1.599,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00103",
+            "actor": "act_8453_201418",
+            "payee": "eip155:8453:0xaf4568c80515c2bf2c2f0d6b3d814a97dfaf9ef1",
+            "usd": 6715.63,
+            "payments": 5,
+            "sink_share": 0.995,
+            "amount_cv": 1.55,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00087",
+            "actor": "act_8453_200999",
+            "payee": "eip155:8453:0x56e426840e7300db4efa2a5fa0f037e013cf3e4f",
+            "usd": 5844.26,
+            "payments": 4,
+            "sink_share": 1,
+            "amount_cv": 1.485,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00099",
+            "actor": "act_8453_200248",
+            "payee": "eip155:8453:0xed850e0bce16f922972596ec159eb75782dd6014",
+            "usd": 5591.28,
+            "payments": 6,
+            "sink_share": 1,
+            "amount_cv": 1.466,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00088",
+            "actor": "act_8453_201158",
+            "payee": "eip155:8453:0x47c19bf0090f98a0580db02066783b1dbe62c87a",
+            "usd": 4545.59,
+            "payments": 4,
+            "sink_share": 1,
+            "amount_cv": 1.399,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00100",
+            "actor": "act_8453_200137",
+            "payee": "eip155:8453:0x0cec102a110c52954e3b5ddb6edc3a229bfe4161",
+            "usd": 4231.9,
+            "payments": 6,
+            "sink_share": 1,
+            "amount_cv": 1.63,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00093",
+            "actor": "act_8453_200255",
+            "payee": "eip155:8453:0xc93a9227dab6889ec0eb810b8b9210995f53c6ed",
+            "usd": 3692.06,
+            "payments": 4,
+            "sink_share": 1,
+            "amount_cv": 1.37,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00101",
+            "actor": "act_8453_201275",
+            "payee": "eip155:8453:0xf2ca65fec2d68699c55024ff1f3990a7e5b8dad2",
+            "usd": 3476.55,
+            "payments": 6,
+            "sink_share": 0.998,
+            "amount_cv": 1.651,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00089",
+            "actor": "act_8453_200513",
+            "payee": "eip155:8453:0x3ad37708fe37c7e08e0aea63398e891d89545acd",
+            "usd": 1614.25,
+            "payments": 4,
+            "sink_share": 1,
+            "amount_cv": 1.088,
+            "typology": "slow_drain"
+          },
+          {
+            "instance": "slow_drain_00094",
+            "actor": "act_8453_201559",
+            "payee": "eip155:8453:0xb662fbfbe66b8162b9702236b8ac758972cbe886",
+            "usd": 283.3,
+            "payments": 5,
+            "sink_share": 1,
+            "amount_cv": 1.156,
+            "typology": "slow_drain"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [
+          {
+            "instance": null,
+            "typology": "x402_micro",
+            "actor": "act_8453_201080",
+            "payee": "eip155:8453:0xd90a08a51b646e98d2650eae953f52521760f32d",
+            "usd": 335,
+            "payments": 3,
+            "sink_share": 0.893,
+            "amount_cv": 1.725
+          },
+          {
+            "instance": null,
+            "typology": "x402_micro",
+            "actor": "act_8453_200007",
+            "payee": "eip155:8453:0x9f2dafd5784cca4dd4713e3c50fa2693228b4816",
+            "usd": 327,
+            "payments": 4,
+            "sink_share": 0.944,
+            "amount_cv": 1.981
+          }
+        ],
+        "unexpected_catch": []
+      }
+    },
+    "drain_emptied_80pct": {
+      "kind": "drain_pattern",
+      "expected": 25,
+      "hit": 25,
+      "miss": 0,
+      "false_alarm": 1,
+      "unexpected_catch": 0,
+      "precision": 0.962,
+      "recall": 1,
+      "detections": 26,
+      "unexpected_catches_by_shape": {},
+      "false_alarms_by_shape": {
+        "purchase": 1
+      },
+      "detail": {
+        "hit": [
+          {
+            "instance": "drain_00062",
+            "actor": "act_8453_201764",
+            "tx": "0x9e02b3c4f67ceca79748ec7b170074cb0ae8ed215f9e5b51f89b6cb52235b8e9",
+            "usd": 314.71,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00065",
+            "actor": "act_8453_200693",
+            "tx": "0x2d919b6bab3513e991e61ec6d82ddb25208c16b3f38a1b56b7923ae8da890f56",
+            "usd": 570.76,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00059",
+            "actor": "act_8453_201632",
+            "tx": "0x288458a2125c14cecfa295cd5a8bb0a8032bfbf2d95ea743a7eda224aaaf628b",
+            "usd": 562.38,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00060",
+            "actor": "act_8453_201085",
+            "tx": "0xca9d6ed8ca75da0776807abd2e466479e380ba24fcb55cb98d0912315b5e0104",
+            "usd": 1429.66,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00041",
+            "actor": "act_8453_200811",
+            "tx": "0xee61fb6402d03f6a4d40200d7c967340621b291ec664210d9fc9415d4abe130d",
+            "usd": 608.38,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00045",
+            "actor": "act_8453_200627",
+            "tx": "0x03a334cc01abe443a6003c75942ae9850dac6809cb822d1678b884f8c1cab740",
+            "usd": 465.56,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00063",
+            "actor": "act_8453_201248",
+            "tx": "0x6e1aaf4e26041762ddcf33d57144d13c1ba4c285bbcb19e0e346d62fd4b6a5ff",
+            "usd": 974.28,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00061",
+            "actor": "act_8453_200393",
+            "tx": "0xeae6305c6404bbd3dd3aba5d18db95ea1b032b3a18166d8cb2f61c26efcc9839",
+            "usd": 1071.72,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00055",
+            "actor": "act_8453_200791",
+            "tx": "0xce7dfceea5daad3ba3fab75afc0e1aa9c299ea703ccaf8b2e050359a93a776c5",
+            "usd": 401.52,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00053",
+            "actor": "act_8453_200302",
+            "tx": "0x410bbddcf23e1366701b269f87e1240af92798ecae468b823a84afcacd64427b",
+            "usd": 484.72,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00052",
+            "actor": "act_8453_201020",
+            "tx": "0x325daa10e517bb605c7a7500488401a5463140d25872e8ae31ddca78f2aa73c3",
+            "usd": 669.78,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00043",
+            "actor": "act_8453_201777",
+            "tx": "0x0b58795bf0cf1af6d20db2c2edf5c4bd3ce56bda146c205094dc77d1efcba9a6",
+            "usd": 582.63,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00056",
+            "actor": "act_8453_201015",
+            "tx": "0xa45e80c5d1539d85f3f1dd9ab211f21b0e6f11502a85ff7d18ed616f5bd59421",
+            "usd": 681.89,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00049",
+            "actor": "act_8453_201773",
+            "tx": "0x3f648afc34e4f43091f929ca9a90c8a0dcfd23baa7e7e48df5d69567748a1e1e",
+            "usd": 1091.51,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00064",
+            "actor": "act_8453_201743",
+            "tx": "0x6710ad3a2cb7fa8a0b5158b1b9f15c71bb20756079c8771bf7de90ff15b2f705",
+            "usd": 576.03,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00044",
+            "actor": "act_8453_201901",
+            "tx": "0x614e5b79f487d5c59ed83ab731c18b3f61327e8792de1ea8a8542d49abd8c8cb",
+            "usd": 1067.7,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00054",
+            "actor": "act_8453_200115",
+            "tx": "0xe2147fa9c29feaa24bb145e767449b48d35297478af6b5d0023a1f3f6bcbd044",
+            "usd": 439.96,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00058",
+            "actor": "act_8453_200414",
+            "tx": "0x4065d39513c7dc7ce328ad9a0ca5d6f7fcec4e7f39a5cd33924ffcce5f904fe8",
+            "usd": 750.61,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00050",
+            "actor": "act_8453_200725",
+            "tx": "0xe97509899e233bc809885747fe32bdb4aaa5b0d14b822ba6c9287fe262e0b69e",
+            "usd": 486.22,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00046",
+            "actor": "act_8453_200933",
+            "tx": "0xc37267376616fd3c9788975c52383e2af96f3a268703b3bc4518068e73581a19",
+            "usd": 880.59,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00051",
+            "actor": "act_8453_201034",
+            "tx": "0x8976e0a32c7b9c258a6181ab51c6750970ca65163ba6eebfd57ab8b5b2e73f3a",
+            "usd": 721.55,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00042",
+            "actor": "act_8453_201233",
+            "tx": "0x31707371f2d9fe9b68c73da4a3e1b103c4a5241095b186c4fa483e81350b8fe5",
+            "usd": 525.42,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00048",
+            "actor": "act_8453_201325",
+            "tx": "0x9577fddbe6f48b0c8e8ebbba0473e6c8d7c32adc5832ecfee4d33f842ff69b8b",
+            "usd": 788.85,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00057",
+            "actor": "act_8453_201972",
+            "tx": "0x3a884fb5192ddb31b9c00c3bb9abe782e6c4d070e2ed1f86c2dca67967c70d4a",
+            "usd": 841,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00047",
+            "actor": "act_8453_200471",
+            "tx": "0x598d7b4648f5db007fcbef59d80ff1dff3f54cb0f5d3304cab996f6957672d85",
+            "usd": 894.8,
+            "fraction_of_balance": 1,
+            "typology": "drain"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201341",
+            "tx": "0x90f27220960cee2c473b9865295e70f356df756e62844c61c8c2669c3f33efff",
+            "usd": 450,
+            "fraction_of_balance": 0.96
+          }
+        ],
+        "unexpected_catch": []
+      }
+    },
+    "slow_drain_72h_emptied_80pct": {
+      "kind": "drain_pattern",
+      "expected": 25,
+      "hit": 25,
+      "miss": 0,
+      "false_alarm": 5,
+      "unexpected_catch": 20,
+      "precision": 0.833,
+      "recall": 1,
+      "detections": 50,
+      "unexpected_catches_by_shape": {
+        "slow_drain": 20
+      },
+      "false_alarms_by_shape": {
+        "periodical": 2,
+        "purchase": 1,
+        "x402_micro": 2
+      },
+      "detail": {
+        "hit": [
+          {
+            "instance": "drain_00060",
+            "actor": "act_8453_201085",
+            "payee": "eip155:8453:0xce6c96284b66088790e377bfb1744524d6f6d8bb",
+            "usd": 1429.66,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00049",
+            "actor": "act_8453_201773",
+            "payee": "eip155:8453:0xd467d8569a397e5fca5b76843e84cebf571148ef",
+            "usd": 1091.51,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00061",
+            "actor": "act_8453_200393",
+            "payee": "eip155:8453:0x5913ddb80865b33ffa404fadc2225daf522fed06",
+            "usd": 1071.72,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00044",
+            "actor": "act_8453_201901",
+            "payee": "eip155:8453:0xaeb916ab3ca626005f2734d110655960f99c44a9",
+            "usd": 1067.7,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00063",
+            "actor": "act_8453_201248",
+            "payee": "eip155:8453:0xc0e1f8f241c604c5f67ee71df6226affbad6ec8b",
+            "usd": 974.28,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00047",
+            "actor": "act_8453_200471",
+            "payee": "eip155:8453:0x5a33e644c7a44cdb2cc9b1466280ce23eff62ec9",
+            "usd": 894.8,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00046",
+            "actor": "act_8453_200933",
+            "payee": "eip155:8453:0xa8a86d159b497c9bd17afd98455ce4503b27b6a7",
+            "usd": 880.59,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00057",
+            "actor": "act_8453_201972",
+            "payee": "eip155:8453:0xc9933ed748fa124732c3eb52174403e12807e606",
+            "usd": 841,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00048",
+            "actor": "act_8453_201325",
+            "payee": "eip155:8453:0x354db5b99807a7270e3c3b8d3356a687d0f69835",
+            "usd": 788.85,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00058",
+            "actor": "act_8453_200414",
+            "payee": "eip155:8453:0x0bc9b4769db2ea84136e48fd4d60157a63fefadb",
+            "usd": 750.61,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00051",
+            "actor": "act_8453_201034",
+            "payee": "eip155:8453:0xbdbc61a73c0290b1768a03bdcf09bd484ec18ed1",
+            "usd": 721.55,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00056",
+            "actor": "act_8453_201015",
+            "payee": "eip155:8453:0xe52d05b9f3a200a3a6fd03b2ce6379742d758460",
+            "usd": 681.89,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00052",
+            "actor": "act_8453_201020",
+            "payee": "eip155:8453:0x7a03f3fd779f2de18c07f6d2b9380c1b683f718e",
+            "usd": 669.78,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00041",
+            "actor": "act_8453_200811",
+            "payee": "eip155:8453:0x8db6f3154fcebcbb880c756310072827d132cc0c",
+            "usd": 608.38,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00043",
+            "actor": "act_8453_201777",
+            "payee": "eip155:8453:0x5face23b077f1acc3e7d1a6ff2bbba09809b62c7",
+            "usd": 582.63,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00064",
+            "actor": "act_8453_201743",
+            "payee": "eip155:8453:0x1af55a3f9029a4762f49d90642b85d3be437bb5d",
+            "usd": 576.03,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00065",
+            "actor": "act_8453_200693",
+            "payee": "eip155:8453:0xdbf85f7e9310cdf4b384bfcc135a5c5ed056f222",
+            "usd": 570.76,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00059",
+            "actor": "act_8453_201632",
+            "payee": "eip155:8453:0xcba84e80d98030ed6d348f38bc0ae002f91af248",
+            "usd": 562.38,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00042",
+            "actor": "act_8453_201233",
+            "payee": "eip155:8453:0x3f062cf1077a3dd06313e0916910689b92bf02ad",
+            "usd": 525.42,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00050",
+            "actor": "act_8453_200725",
+            "payee": "eip155:8453:0xfe3535998615e67c8bbd493f4e307d8350ea8379",
+            "usd": 486.22,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00053",
+            "actor": "act_8453_200302",
+            "payee": "eip155:8453:0xc6461c06ef97049248134b1750e78a626d867829",
+            "usd": 484.72,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00045",
+            "actor": "act_8453_200627",
+            "payee": "eip155:8453:0x7d7c16f333fb2b9432ebf8a49c0b30a4ed951268",
+            "usd": 465.56,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00054",
+            "actor": "act_8453_200115",
+            "payee": "eip155:8453:0x32c50fd98b803eddf756caf26ae03577185451a9",
+            "usd": 439.96,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00055",
+            "actor": "act_8453_200791",
+            "payee": "eip155:8453:0x9118ef561abf3985c9d7f20cfe1ed0a98d61edfb",
+            "usd": 401.52,
+            "payments": 1,
+            "typology": "drain"
+          },
+          {
+            "instance": "drain_00062",
+            "actor": "act_8453_201764",
+            "payee": "eip155:8453:0x986da1d2c93870fb852f1b45027f0bf17654c6a7",
+            "usd": 314.71,
+            "payments": 1,
+            "typology": "drain"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [
+          {
+            "instance": null,
+            "typology": "periodical",
+            "actor": "act_8453_200561",
+            "payee": "eip155:8453:0x62e0c769fff7ca85f27d500e43210b9d5803b9c7",
+            "usd": 647.91,
+            "payments": 7
+          },
+          {
+            "instance": null,
+            "typology": "purchase",
+            "actor": "act_8453_201341",
+            "payee": "eip155:8453:0xb38be1f2a7e6472cb8d5392667b2a0b9cb6bbd96",
+            "usd": 450,
+            "payments": 1
+          },
+          {
+            "instance": null,
+            "typology": "periodical",
+            "actor": "act_8453_201907",
+            "payee": "eip155:8453:0xca1d590a443f795dba614a6e89e6adbc91e445dc",
+            "usd": 383,
+            "payments": 4
+          },
+          {
+            "instance": null,
+            "typology": "x402_micro",
+            "actor": "act_8453_201080",
+            "payee": "eip155:8453:0xd90a08a51b646e98d2650eae953f52521760f32d",
+            "usd": 335,
+            "payments": 3
+          },
+          {
+            "instance": null,
+            "typology": "x402_micro",
+            "actor": "act_8453_200007",
+            "payee": "eip155:8453:0x9f2dafd5784cca4dd4713e3c50fa2693228b4816",
+            "usd": 327,
+            "payments": 4
+          }
+        ],
+        "unexpected_catch": [
+          {
+            "instance": "slow_drain_00104",
+            "typology": "slow_drain",
+            "actor": "act_8453_200777",
+            "payee": "eip155:8453:0x38c6e3d52e32c8801147498d466fd308d39b347e",
+            "usd": 176454.99,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00086",
+            "typology": "slow_drain",
+            "actor": "act_8453_201528",
+            "payee": "eip155:8453:0x0e10688bed24dda305f19071ad1b3deadc091e21",
+            "usd": 95657.23,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00098",
+            "typology": "slow_drain",
+            "actor": "act_8453_200890",
+            "payee": "eip155:8453:0x4a264c294307ea3f304b50be1a2513d011716947",
+            "usd": 91950.61,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00095",
+            "typology": "slow_drain",
+            "actor": "act_8453_201125",
+            "payee": "eip155:8453:0x9695cbc00249bc30fa5a69b87fc0fc7a8f527290",
+            "usd": 55582.04,
+            "payments": 5
+          },
+          {
+            "instance": "slow_drain_00097",
+            "typology": "slow_drain",
+            "actor": "act_8453_201108",
+            "payee": "eip155:8453:0x201d28642b61e293e6e76e07f07b323792c4ec60",
+            "usd": 53332.55,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00090",
+            "typology": "slow_drain",
+            "actor": "act_8453_201402",
+            "payee": "eip155:8453:0x626a8b4fb7ed5b752e145e4dd07b756e0456c8bb",
+            "usd": 39004.25,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00096",
+            "typology": "slow_drain",
+            "actor": "act_8453_201433",
+            "payee": "eip155:8453:0xdb7fc8373aa3e3f1dfc3dd42914a5e9a2982683f",
+            "usd": 27753.06,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00102",
+            "typology": "slow_drain",
+            "actor": "act_8453_201117",
+            "payee": "eip155:8453:0x19329b6e23af9797db7b6c9bff5680d07f83caf7",
+            "usd": 27281.93,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00105",
+            "typology": "slow_drain",
+            "actor": "act_8453_201887",
+            "payee": "eip155:8453:0xaae384856ff0e6f23e98382c1d2aeb3542a8dbac",
+            "usd": 24822.07,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00091",
+            "typology": "slow_drain",
+            "actor": "act_8453_200726",
+            "payee": "eip155:8453:0x7fa20673c443cbc527a8fae790acc50ad1334e7e",
+            "usd": 14491.5,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00092",
+            "typology": "slow_drain",
+            "actor": "act_8453_201873",
+            "payee": "eip155:8453:0xf9c5e28868bf88c156c9bf5ccbffc815e5d29277",
+            "usd": 8629.87,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00103",
+            "typology": "slow_drain",
+            "actor": "act_8453_201418",
+            "payee": "eip155:8453:0xaf4568c80515c2bf2c2f0d6b3d814a97dfaf9ef1",
+            "usd": 6715.63,
+            "payments": 5
+          },
+          {
+            "instance": "slow_drain_00087",
+            "typology": "slow_drain",
+            "actor": "act_8453_200999",
+            "payee": "eip155:8453:0x56e426840e7300db4efa2a5fa0f037e013cf3e4f",
+            "usd": 5844.26,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00099",
+            "typology": "slow_drain",
+            "actor": "act_8453_200248",
+            "payee": "eip155:8453:0xed850e0bce16f922972596ec159eb75782dd6014",
+            "usd": 5591.28,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00088",
+            "typology": "slow_drain",
+            "actor": "act_8453_201158",
+            "payee": "eip155:8453:0x47c19bf0090f98a0580db02066783b1dbe62c87a",
+            "usd": 4545.59,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00100",
+            "typology": "slow_drain",
+            "actor": "act_8453_200137",
+            "payee": "eip155:8453:0x0cec102a110c52954e3b5ddb6edc3a229bfe4161",
+            "usd": 4231.9,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00093",
+            "typology": "slow_drain",
+            "actor": "act_8453_200255",
+            "payee": "eip155:8453:0xc93a9227dab6889ec0eb810b8b9210995f53c6ed",
+            "usd": 3692.06,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00101",
+            "typology": "slow_drain",
+            "actor": "act_8453_201275",
+            "payee": "eip155:8453:0xf2ca65fec2d68699c55024ff1f3990a7e5b8dad2",
+            "usd": 3476.55,
+            "payments": 6
+          },
+          {
+            "instance": "slow_drain_00089",
+            "typology": "slow_drain",
+            "actor": "act_8453_200513",
+            "payee": "eip155:8453:0x3ad37708fe37c7e08e0aea63398e891d89545acd",
+            "usd": 1614.25,
+            "payments": 4
+          },
+          {
+            "instance": "slow_drain_00094",
+            "typology": "slow_drain",
+            "actor": "act_8453_201559",
+            "payee": "eip155:8453:0xb662fbfbe66b8162b9702236b8ac758972cbe886",
+            "usd": 283.3,
+            "payments": 5
+          }
+        ]
+      }
+    },
+    "layering_cycle": {
+      "kind": "cycle",
+      "expected": 8,
+      "hit": 8,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 1,
+      "precision": 1,
+      "recall": 1,
+      "detections": 9,
+      "unexpected_catches_by_shape": {
+        "random": 1
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "cycle_00016",
+            "main": "act_8453_200156",
+            "members": 5,
+            "usd": 134.53,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00018",
+            "main": "act_8453_201971",
+            "members": 5,
+            "usd": 170.36,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00013",
+            "main": "act_8453_200175",
+            "members": 8,
+            "usd": 199.87,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00015",
+            "main": "act_8453_200569",
+            "members": 5,
+            "usd": 145,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00020",
+            "main": "act_8453_201786",
+            "members": 6,
+            "usd": 138.64,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00014",
+            "main": "act_8453_201326",
+            "members": 10,
+            "usd": 133.95,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00017",
+            "main": "act_8453_200130",
+            "members": 6,
+            "usd": 164.44,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00019",
+            "main": "act_8453_201621",
+            "members": 6,
+            "usd": 136.57,
+            "typology": "cycle"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "random_00030",
+            "typology": "random",
+            "main": "act_8453_201857",
+            "members": 3,
+            "usd": 123.07
+          }
+        ]
+      }
+    },
+    "layering_cycle_wide": {
+      "kind": "cycle",
+      "expected": 8,
+      "hit": 8,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 1,
+      "precision": 1,
+      "recall": 1,
+      "detections": 9,
+      "unexpected_catches_by_shape": {
+        "random": 1
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "cycle_00016",
+            "main": "act_8453_200156",
+            "members": 5,
+            "usd": 134.53,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00018",
+            "main": "act_8453_201971",
+            "members": 5,
+            "usd": 170.36,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00013",
+            "main": "act_8453_200175",
+            "members": 8,
+            "usd": 199.87,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00015",
+            "main": "act_8453_200569",
+            "members": 5,
+            "usd": 145,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00020",
+            "main": "act_8453_201786",
+            "members": 6,
+            "usd": 138.64,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00014",
+            "main": "act_8453_201326",
+            "members": 10,
+            "usd": 133.95,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00017",
+            "main": "act_8453_200130",
+            "members": 6,
+            "usd": 164.44,
+            "typology": "cycle"
+          },
+          {
+            "instance": "cycle_00019",
+            "main": "act_8453_201621",
+            "members": 6,
+            "usd": 136.57,
+            "typology": "cycle"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "random_00030",
+            "typology": "random",
+            "main": "act_8453_201857",
+            "members": 3,
+            "usd": 123.07
+          }
+        ]
+      }
+    },
+    "layering_scatter_gather": {
+      "kind": "scatter_gather",
+      "expected": 4,
+      "hit": 4,
+      "miss": 0,
+      "false_alarm": 1,
+      "unexpected_catch": 2,
+      "precision": 0.8,
+      "recall": 1,
+      "detections": 10,
+      "unexpected_catches_by_shape": {
+        "stack": 2
+      },
+      "false_alarms_by_shape": {
+        "normal": 1
+      },
+      "detail": {
+        "hit": [
+          {
+            "instance": "scatter_gather_00035",
+            "main": "act_8453_201264",
+            "members": 9,
+            "usd": 1051.59,
+            "typology": "scatter_gather"
+          },
+          {
+            "instance": "scatter_gather_00034",
+            "main": "act_8453_200724",
+            "members": 9,
+            "usd": 1164.41,
+            "typology": "scatter_gather"
+          },
+          {
+            "instance": "scatter_gather_00033",
+            "main": "act_8453_201868",
+            "members": 7,
+            "usd": 815.37,
+            "typology": "scatter_gather"
+          },
+          {
+            "instance": "scatter_gather_00036",
+            "main": "act_8453_200698",
+            "members": 6,
+            "usd": 602.1,
+            "typology": "scatter_gather"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [
+          {
+            "instance": null,
+            "typology": "normal",
+            "main": "act_8453_200402",
+            "members": 5,
+            "usd": 406.04
+          }
+        ],
+        "unexpected_catch": [
+          {
+            "instance": "stack_00026",
+            "typology": "stack",
+            "main": "act_8453_200261",
+            "members": 5,
+            "usd": 475.46
+          },
+          {
+            "instance": "stack_00025",
+            "typology": "stack",
+            "main": "act_8453_200793",
+            "members": 5,
+            "usd": 462.38
+          }
+        ]
+      }
+    },
+    "layering_gather_scatter": {
+      "kind": "gather_scatter",
+      "expected": 4,
+      "hit": 4,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 2,
+      "precision": 1,
+      "recall": 1,
+      "detections": 6,
+      "unexpected_catches_by_shape": {
+        "stack": 2
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "gather_scatter_00040",
+            "main": "act_8453_201585",
+            "members": 11,
+            "usd": 630.86,
+            "typology": "gather_scatter"
+          },
+          {
+            "instance": "gather_scatter_00037",
+            "main": "act_8453_201747",
+            "members": 8,
+            "usd": 516.59,
+            "typology": "gather_scatter"
+          },
+          {
+            "instance": "gather_scatter_00039",
+            "main": "act_8453_201658",
+            "members": 13,
+            "usd": 549.2,
+            "typology": "gather_scatter"
+          },
+          {
+            "instance": "gather_scatter_00038",
+            "main": "act_8453_201690",
+            "members": 7,
+            "usd": 561.81,
+            "typology": "gather_scatter"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "stack_00028",
+            "typology": "stack",
+            "main": "act_8453_201143",
+            "members": 7,
+            "usd": 426.32
+          },
+          {
+            "instance": "stack_00025",
+            "typology": "stack",
+            "main": "act_8453_200416",
+            "members": 8,
+            "usd": 446.53
+          }
+        ]
+      }
+    },
+    "layering_fan_in_same_amount": {
+      "kind": "fan_in",
+      "expected": 6,
+      "hit": 6,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 2,
+      "precision": 1,
+      "recall": 1,
+      "detections": 8,
+      "unexpected_catches_by_shape": {
+        "gather_scatter": 2
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "fan_in_00005",
+            "main": "act_8453_201884",
+            "members": 9,
+            "usd": 1120,
+            "typology": "fan_in"
+          },
+          {
+            "instance": "fan_in_00003",
+            "main": "act_8453_200711",
+            "members": 10,
+            "usd": 990,
+            "typology": "fan_in"
+          },
+          {
+            "instance": "fan_in_00001",
+            "main": "act_8453_200460",
+            "members": 9,
+            "usd": 960,
+            "typology": "fan_in"
+          },
+          {
+            "instance": "fan_in_00006",
+            "main": "act_8453_201131",
+            "members": 10,
+            "usd": 1170,
+            "typology": "fan_in"
+          },
+          {
+            "instance": "fan_in_00004",
+            "main": "act_8453_200674",
+            "members": 7,
+            "usd": 1020,
+            "typology": "fan_in"
+          },
+          {
+            "instance": "fan_in_00002",
+            "main": "act_8453_200995",
+            "members": 10,
+            "usd": 1710,
+            "typology": "fan_in"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "gather_scatter_00040",
+            "typology": "gather_scatter",
+            "main": "act_8453_201585",
+            "members": 6,
+            "usd": 630.86
+          },
+          {
+            "instance": "gather_scatter_00039",
+            "typology": "gather_scatter",
+            "main": "act_8453_201658",
+            "members": 6,
+            "usd": 510.22
+          }
+        ]
+      }
+    },
+    "layering_fan_out_same_amount": {
+      "kind": "fan_out",
+      "expected": 6,
+      "hit": 6,
+      "miss": 0,
+      "false_alarm": 0,
+      "unexpected_catch": 2,
+      "precision": 1,
+      "recall": 1,
+      "detections": 8,
+      "unexpected_catches_by_shape": {
+        "gather_scatter": 2
+      },
+      "false_alarms_by_shape": {},
+      "detail": {
+        "hit": [
+          {
+            "instance": "fan_out_00009",
+            "main": "act_8453_200935",
+            "members": 8,
+            "usd": 1050,
+            "typology": "fan_out"
+          },
+          {
+            "instance": "fan_out_00007",
+            "main": "act_8453_201302",
+            "members": 9,
+            "usd": 1520,
+            "typology": "fan_out"
+          },
+          {
+            "instance": "fan_out_00008",
+            "main": "act_8453_201832",
+            "members": 5,
+            "usd": 760,
+            "typology": "fan_out"
+          },
+          {
+            "instance": "fan_out_00010",
+            "main": "act_8453_200658",
+            "members": 5,
+            "usd": 680,
+            "typology": "fan_out"
+          },
+          {
+            "instance": "fan_out_00012",
+            "main": "act_8453_201215",
+            "members": 6,
+            "usd": 900,
+            "typology": "fan_out"
+          },
+          {
+            "instance": "fan_out_00011",
+            "main": "act_8453_201362",
+            "members": 8,
+            "usd": 770,
+            "typology": "fan_out"
+          }
+        ],
+        "miss": [],
+        "false_alarm": [],
+        "unexpected_catch": [
+          {
+            "instance": "gather_scatter_00040",
+            "typology": "gather_scatter",
+            "main": "act_8453_201585",
+            "members": 6,
+            "usd": 630.86
+          },
+          {
+            "instance": "gather_scatter_00039",
+            "typology": "gather_scatter",
+            "main": "act_8453_201658",
+            "members": 6,
+            "usd": 510.22
+          }
+        ]
+      }
+    }
+  },
+  "layering": {
+    "edges": 2433,
+    "load_ms": 31,
+    "ms": {
+      "cycle": 5,
+      "cycle_wide": 2,
+      "scatter_gather": 2,
+      "gather_scatter": 2,
+      "fan_in_same_amount": 2,
+      "fan_out_same_amount": 1
+    }
+  },
+  "poisoning": {
+    "cases": 12,
+    "agree": 12,
+    "detail": [
+      {
+        "case": "Cyrillic С in USDС normalises to USDC",
+        "ok": true
+      },
+      {
+        "case": "zero-width space inside U​SDC is removed",
+        "ok": true
+      },
+      {
+        "case": "lower case usdc",
+        "ok": true
+      },
+      {
+        "case": "punctuation USD-C",
+        "ok": true
+      },
+      {
+        "case": "Greek Ε in ΕURC",
+        "ok": true
+      },
+      {
+        "case": "combining acute on U is stripped",
+        "ok": true
+      },
+      {
+        "case": "a real symbol is unchanged",
+        "ok": true
+      },
+      {
+        "case": "look-alike by first 4 + last 4 names the payee",
+        "ok": true
+      },
+      {
+        "case": "the payee known longest is preferred among same-shape payees",
+        "ok": true
+      },
+      {
+        "case": "last 4 only is reported as the weaker match",
+        "ok": true
+      },
+      {
+        "case": "an unrelated address matches nothing",
+        "ok": true
+      },
+      {
+        "case": "a payee is not its own look-alike",
+        "ok": true
+      }
+    ],
+    "end_to_end": {
+      "wallets": 300,
+      "planted": 151,
+      "losses_expected": 151,
+      "losses_found": 151,
+      "false_losses": 0,
+      "missed": 0,
+      "detail": []
+    }
+  },
+  "typologies": {
+    "fan_in": {
+      "instances": 6,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim fan-in: several members pay the main account the same amount; the ledger has no fan-in detector"
+    },
+    "fan_out": {
+      "instances": 6,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim fan-out: the main account pays several members the same amount"
+    },
+    "cycle": {
+      "instances": 8,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim cycle: money goes round a ring of members, each keeping a margin; no cycle detector in the ledger"
+    },
+    "bipartite": {
+      "instances": 4,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim bipartite: every originator pays every beneficiary"
+    },
+    "stack": {
+      "instances": 4,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim stack: two bipartite layers, originators to intermediaries to beneficiaries"
+    },
+    "random": {
+      "instances": 4,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim random: a chain of members, one amount, one day"
+    },
+    "scatter_gather": {
+      "instances": 4,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim scatter-gather: fan-out to intermediaries, then fan-in to one beneficiary"
+    },
+    "gather_scatter": {
+      "instances": 4,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "AMLSim gather-scatter: fan-in to one intermediary, then fan-out"
+    },
+    "drain": {
+      "instances": 25,
+      "suspicious": true,
+      "expected_flags": [
+        "drain_pattern"
+      ],
+      "hit": 25,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "a sudden payment far above the wallet's history, to a stranger"
+    },
+    "drain_small": {
+      "instances": 10,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "a drain below the $250 floor; by design not flagged"
+    },
+    "drain_known_payee": {
+      "instances": 10,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "a drain to an address the wallet had paid before; the rule requires a stranger"
+    },
+    "slow_drain": {
+      "instances": 20,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "the wallet is emptied in 6 payments, each under 5x the previous largest, to one sink"
+    },
+    "routing_hop_large": {
+      "instances": 15,
+      "suspicious": false,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "$2200 in and out in one transaction; excluded from spending by the pass-through rule, so no drain flag"
+    },
+    "retry_storm": {
+      "instances": 15,
+      "suspicious": true,
+      "expected_flags": [
+        "retry_storm"
+      ],
+      "hit": 15,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "113 payments to one seller inside 10 minutes"
+    },
+    "retry_storm_slow": {
+      "instances": 8,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "61 payments to one seller over 39 minutes; outside the 10-minute window"
+    },
+    "retry_storm_straddle": {
+      "instances": 8,
+      "suspicious": true,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "60 payments inside 10 minutes that cross an hour boundary; the hour buckets each hold fewer than 50"
+    },
+    "mint_burst": {
+      "instances": 6,
+      "suspicious": false,
+      "expected_flags": [
+        "mint_burst"
+      ],
+      "hit": 6,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "41 registrations minted by one address inside an hour; a shape, not a harm"
+    },
+    "mint_burst_spread": {
+      "instances": 4,
+      "suspicious": false,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "37 registrations by one address over 3 hours, each hour under 25"
+    },
+    "uri_timeout_streak": {
+      "instances": 12,
+      "suspicious": false,
+      "expected_flags": [
+        "uri_timeout_streak"
+      ],
+      "hit": 12,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "9 failed probes and never one that answered"
+    },
+    "uri_flapping": {
+      "instances": 6,
+      "suspicious": false,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "10 failed probes with one success among them; not a streak by definition"
+    },
+    "funding_quiet": {
+      "instances": 20,
+      "suspicious": false,
+      "expected_flags": [],
+      "hit": 0,
+      "miss": 0,
+      "flagged_unexpectedly": 0,
+      "note": "funded after registration and never pays; the ladder must leave it at L0"
+    }
+  },
+  "ladder": {
+    "agents": 2796,
+    "agree": 2796,
+    "by_expected_level": {
+      "0": {
+        "agents": 1301,
+        "agree": 1301
+      },
+      "7": {
+        "agents": 447,
+        "agree": 447
+      },
+      "8": {
+        "agents": 758,
+        "agree": 758
+      },
+      "9": {
+        "agents": 290,
+        "agree": 290
+      }
+    },
+    "disagreements": []
+  },
+  "passthrough": {
+    "cases": 10,
+    "agree": 10,
+    "detail": [
+      {
+        "case": "own balance spent (one leg out)",
+        "expected": false,
+        "got": false,
+        "ok": true
+      },
+      {
+        "case": "exact hop in and out",
+        "expected": true,
+        "got": true,
+        "ok": true
+      },
+      {
+        "case": "router skim 0.5%",
+        "expected": true,
+        "got": true,
+        "ok": true
+      },
+      {
+        "case": "skim 1.9% (inside tolerance)",
+        "expected": true,
+        "got": true,
+        "ok": true
+      },
+      {
+        "case": "skim 2.5% (outside tolerance)",
+        "expected": false,
+        "got": false,
+        "ok": true
+      },
+      {
+        "case": "USDT in, USDC out, same size (a swap)",
+        "expected": true,
+        "got": true,
+        "ok": true
+      },
+      {
+        "case": "partial forward 60%",
+        "expected": false,
+        "got": false,
+        "ok": true
+      },
+      {
+        "case": "received only (nothing out)",
+        "expected": false,
+        "got": false,
+        "ok": true
+      },
+      {
+        "case": "two legs in, one out, equal total",
+        "expected": true,
+        "got": true,
+        "ok": true
+      },
+      {
+        "case": "unrelated legs only",
+        "expected": false,
+        "got": false,
+        "ok": true
+      }
+    ]
+  },
+  "fidelity": {
+    "counted_spending_tables": 1064590.47,
+    "counted_spending_generator": 1064590.47,
+    "counted_events": 34673,
+    "match": true
+  }
+}

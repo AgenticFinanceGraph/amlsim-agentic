@@ -1,0 +1,203 @@
+{
+ "run": "out/afg-2k-silence",
+ "db": "afg_simsilence",
+ "sim_end": "2026-11-09T00:00:00.000Z",
+ "lookback": "60 days",
+ "dominant_ms": 359,
+ "dominant_windows": 22,
+ "slow_drain_instances": 20,
+ "instances_whose_30_days_fit": 15,
+ "silent_victims": 9,
+ "silent_victims_whose_30_days_fit": 8,
+ "thresholds": {
+  "window_hours": 72,
+  "silence_days": 30,
+  "max_payee_payers": 10
+ },
+ "rules": [
+  {
+   "rule": "A  dominant share (live candidate)",
+   "windows": 22,
+   "hits": 20,
+   "instances": 20,
+   "false_alarms": 2,
+   "false_alarm_typologies": {
+    "x402_micro": 2
+   },
+   "unexpected_catches": 0,
+   "precision_pct": 90.9,
+   "recall_pct": 100
+  },
+  {
+   "rule": "B  A + payee paid by < 10 agents",
+   "windows": 21,
+   "hits": 20,
+   "instances": 20,
+   "false_alarms": 1,
+   "false_alarm_typologies": {
+    "x402_micro": 1
+   },
+   "unexpected_catches": 0,
+   "precision_pct": 95.2,
+   "recall_pct": 100
+  },
+  {
+   "rule": "C  B + agent paid no one else in the next 30 d, lenient, all instances",
+   "windows": 10,
+   "hits": 10,
+   "instances": 20,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 50
+  },
+  {
+   "rule": "C1 same, scored on silent victims only (the rule's target)",
+   "windows": 9,
+   "hits": 9,
+   "instances": 9,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 100
+  },
+  {
+   "rule": "C2 same, scored on victims that kept trading (the rule's cost)",
+   "windows": 1,
+   "hits": 1,
+   "instances": 11,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 9.1
+  },
+  {
+   "rule": "D  B + silence, strict: windows whose 30 d fit, over instances whose 30 d fit",
+   "windows": 9,
+   "hits": 9,
+   "instances": 15,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 60
+  },
+  {
+   "rule": "D1 strict, silent victims only",
+   "windows": 8,
+   "hits": 8,
+   "instances": 8,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 100
+  },
+  {
+   "rule": "D2 strict, victims that kept trading",
+   "windows": 1,
+   "hits": 1,
+   "instances": 7,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 14.3
+  },
+  {
+   "rule": "E  A + silence only (no payer filter), lenient",
+   "windows": 10,
+   "hits": 10,
+   "instances": 20,
+   "false_alarms": 0,
+   "false_alarm_typologies": {},
+   "unexpected_catches": 0,
+   "precision_pct": 100,
+   "recall_pct": 50
+  }
+ ],
+ "windows_by_truth": {
+  "slow_drain": 20,
+  "benign": 2
+ },
+ "payer_count_of_slow_drain_sinks": {
+  "1": 20
+ },
+ "dropped_by_silence": [
+  {
+   "instance": "slow_drain_00086",
+   "victim_silent": false,
+   "others_after": 22,
+   "evaluable": true,
+   "usd": 95657.23
+  },
+  {
+   "instance": "slow_drain_00097",
+   "victim_silent": false,
+   "others_after": 37,
+   "evaluable": false,
+   "usd": 53332.55
+  },
+  {
+   "instance": "slow_drain_00090",
+   "victim_silent": false,
+   "others_after": 5,
+   "evaluable": true,
+   "usd": 39004.25
+  },
+  {
+   "instance": "slow_drain_00096",
+   "victim_silent": false,
+   "others_after": 25,
+   "evaluable": false,
+   "usd": 27753.06
+  },
+  {
+   "instance": "slow_drain_00102",
+   "victim_silent": false,
+   "others_after": 1,
+   "evaluable": true,
+   "usd": 27281.93
+  },
+  {
+   "instance": "slow_drain_00092",
+   "victim_silent": false,
+   "others_after": 43,
+   "evaluable": true,
+   "usd": 8629.87
+  },
+  {
+   "instance": "slow_drain_00103",
+   "victim_silent": false,
+   "others_after": 35,
+   "evaluable": false,
+   "usd": 6715.63
+  },
+  {
+   "instance": "slow_drain_00101",
+   "victim_silent": false,
+   "others_after": 1,
+   "evaluable": false,
+   "usd": 3476.55
+  },
+  {
+   "instance": "slow_drain_00089",
+   "victim_silent": false,
+   "others_after": 1,
+   "evaluable": true,
+   "usd": 1614.25
+  },
+  {
+   "instance": "slow_drain_00094",
+   "victim_silent": false,
+   "others_after": 1,
+   "evaluable": true,
+   "usd": 283.3
+  }
+ ],
+ "surviving_false_alarms": [],
+ "missed_by_dominant": []
+}
