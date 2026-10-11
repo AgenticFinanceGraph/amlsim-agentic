@@ -32,8 +32,9 @@ for (let i = 0; i < pop.funders; i++) sim.external("funder");
    the config band (most agent wallets hold little; a few hold a lot) */
 for (let i = 0; i < pop.agents; i++) {
   const step = rng.int(0, Math.max(0, Math.floor(sim.totalSteps * (pop.registration_spread ?? 0.9))));
-  const balance = rng.chance(pop.funded_share ?? 0.6) ? rng.rounded(pop.initial_balance[0], pop.initial_balance[1]) : 0;
-  sim.agent({ population: "normal", step, offsetS: rng.int(0, 3599), balance });
+  const hot = rng.chance(pop.hot_share ?? 0);
+  const balance = !hot && rng.chance(pop.funded_share ?? 0.6) ? rng.rounded(pop.initial_balance[0], pop.initial_balance[1]) : 0;
+  sim.agent({ population: "normal", step, offsetS: rng.int(0, 3599), balance, hot });
 }
 
 /* 3. normal behaviour, then the injected patterns (which read the history normal behaviour left) */

@@ -93,13 +93,13 @@ And the labelled JSONL the loader and validator read:
 
 ## What the first day of measuring found (10 October 2026)
 
-`config/afg-2k.json`, seed 20261010: 2,813 agents, 66,881 transfers, 189 injected patterns over 60 days. Detectors imported from the live ledger's code (`examples/afg-detectors` holds the same modules). The full report is `examples/afg-2k/report.md`.
+`config/afg-2k.json`, seed 20261010: 2,813 agents, 66,900 transfers, 189 injected patterns over 60 days. Detectors imported from the live ledger's code (`examples/afg-detectors` holds the same modules). The full report is `examples/afg-2k/report.md`. (Tables corrected 11 October to match that file: the first version of this section quoted the morning run of 10 October, generated before the drain and purchase shapes were finalised, with 66,881 transfers and 14 and 18 false alarms in the two drain rows.)
 
 The rules that run on the live ledger every hour:
 
 | detector | expected | hit | miss | false alarms | precision | recall |
 |---|---|---|---|---|---|---|
-| drain_pattern | 25 | 25 | 0 | 14 | 64% | 100% |
+| drain_pattern | 25 | 25 | 0 | 11 | 69% | 100% |
 | retry_storm | 15 | 15 | 0 | 0 | 100% | 100% |
 | mint_burst | 6 | 6 | 0 | 0 | 100% | 100% |
 | uri_timeout_streak | 12 | 12 | 0 | 0 | 100% | 100% |
@@ -113,8 +113,8 @@ The candidate rules written against this data, measured the same way and not yet
 | retry storm, sliding 10-minute window | retry_storm | 15 | 0 | 0 | 8 hour-straddling storms | 100% | 100% |
 | mint burst, sliding 60-minute window | mint_burst | 6 | 0 | 0 | | 100% | 100% |
 | drain that emptied the wallet (took 80%+ of the balance held before it) | drain_pattern | 25 | 0 | 0 | | 100% | 100% |
-| slow drain (72-hour sum to one new payee) | drain_pattern | 25 | 0 | 18 | all 10 slow drains | 58% | 100% |
-| layering: cycle | AMLSim cycle | 6 | 2 | 3 | | 67% | 75% |
+| slow drain (72-hour sum to one new payee) | drain_pattern | 25 | 0 | 15 | all 10 slow drains | 63% | 100% |
+| layering: cycle (first validation; see the re-validation below) | AMLSim cycle | 6 | 2 | 3 | | 67% | 75% |
 | layering: scatter-gather | AMLSim scatter_gather | 4 | 0 | 1 | | 80% | 100% |
 | layering: gather-scatter | AMLSim gather_scatter | 4 | 0 | 0 | 1 stack | 100% | 100% |
 | layering: same-amount fan-in | AMLSim fan_in | 6 | 0 | 0 | 4 gather-scatters | 100% | 100% |
@@ -126,7 +126,9 @@ Synthetic data measures the rules, not the chain. The figures say how a detector
 
 ### At ten times the size
 
-`config/afg-20k.json`, seed 20261011: 22,894 agents, 652,664 transfers, 721 injected patterns (`examples/afg-20k/report.md`). The picture holds. The live drain rule caught 100 of 100 drains with 67 purchase-shaped false alarms (60% precision); the balance test caught 100 of 100 with none. The sliding window caught all 60 storms and all 30 hour-straddling ones. Layering: cycles 17 of 25 with 2 false alarms, scatter-gather 15 of 15, gather-scatter 13 of 15, same-amount fan-in and fan-out 20 of 20 each. The slow-drain sum rule caught all 39 slow drains that survived generation but raised 117 false alarms, 46 of them subscriptions (`periodical`), so on its own it is not a rule; with the balance test it may be.
+`config/afg-20k.json`, seed 20261011: 22,894 agents, 652,664 transfers, 721 injected patterns (`examples/afg-20k/report.md`). The picture holds. The live drain rule caught 100 of 100 drains with 67 purchase-shaped false alarms (60% precision); the balance test caught 100 of 100 with none. The sliding window caught all 60 storms and all 30 hour-straddling ones. Layering: cycles 17 of 25 with 2 false alarms on the first validation (25 of 25 on the re-validation below), scatter-gather 15 of 15, gather-scatter 13 of 15, same-amount fan-in and fan-out 20 of 20 each.
+
+**Re-validated after the first upload (10 and 11 October)** with the detector code as it ships: both runs give the same tables as the first validation except the cycle rows, which read 8 of 8 (2k, 72.7% precision) and 25 of 25 (20k, 92.6%). The first validation's walk stopped at eight hops while AMLSim cycles have up to ten members; the walk now allows twelve. `examples/afg-2k/report.*` and `examples/afg-20k/report.*` are the re-validations; the 10 October reports are kept beside them as `report.2026-10-10.*`. The slow-drain sum rule caught all 39 slow drains that survived generation but raised 117 false alarms, 46 of them subscriptions (`periodical`), so on its own it is not a rule; with the balance test it may be.
 
 The scale run also found a silent cap: the live queries end with `LIMIT 100`, and at 132 drain-shaped rows the oldest 32 drains fell off the list without a word. The functions now take a `limit` and the validator removes it; the hourly run keeps 100 and should warn when it fills, as the mint-burst query already does.
 
@@ -135,6 +137,22 @@ Generation of the 20k set takes about 2.5 minutes. It peaked at 2.9 GB of memory
 ### Checked against the live ledger
 
 The same candidate functions, run read-only over everything the ledger has stored since it began (10 October 2026): of 47 drain-shaped payments, 39 took 80 to 100 percent of what the wallet held at the block before, most of them the balance to the cent, and 8 left most of it. A sliding ten-minute window finds 40 storm detections where the calendar-hour rule finds 10. Across 314,826 agent-to-agent payments there is no cycle, no scatter-gather and no gather-scatter, only ten same-amount fan-outs. And one synthetic result did not survive contact with the chain: the slow-drain test "the wallet is left near empty after the window" flags 130 of 156 live windows, because agent hot wallets are funded as they pay and run near zero as a matter of course, while the synthetic population held balances. The generator needs a hot-wallet model before that rule is measured again; until then it is not a rule.
+
+## What the second day found (11 October 2026)
+
+**Runs with a peak, not calendar buckets.** The sliding-window candidates above group by day, so two storms between one payer and one seller on the same day collapse into one row, and a day-keyed row can never share an id with the hour-keyed rows the ledger had already logged. The rules that shipped instead (`retryStormsIsland`, `mintBurstsIsland` in `examples/afg-detectors/lib/detectors.mjs`) read *runs*: consecutive events never more than the window apart, reported when the densest window inside the run reaches the threshold, keyed on the hour the run starts. On the synthetic set they score exactly as the sliding windows: 15 of 15 storms plus the 8 hour-straddling near-misses, 6 of 6 bursts, no false alarm (`examples/weekly-2026-10-11/report.md`). On the live ledger: 45 storm runs from 28 payer-to-seller pairs where the calendar-hour rule reported 10 from 7, and 88 bursting addresses where it reported 83. They went live on Agentic Finance Graph on 12 October 2026 as `retry_storm.v2` and `mint_burst.v2`.
+
+**A hot-wallet population.** The generator can now make the wallets the live check found: `population.hot_share` marks a share of agents as hot, and a hot wallet's just-in-time funding brings only what the payment needs, with no cushion (`lib/engine.mjs`, `generate.mjs`). `config/afg-2k-hot.json` is the 2k run with half the population hot, seed 20261011: 2,893 agents, 84,246 transfers, 189 injected patterns (`examples/hot-2026-10-11/report.md`). One gap stays open, and it is the interesting one: the generator's purchases keep 40% of the wallet by construction, so even a hot wallet leaves something behind after a purchase and the balance test still held (89.3% precision on the hot run, 86.2% on the baseline). On the chain a hot wallet's purchase leaves nothing. The next generator change is a `keep_share` band for hot agents so the live blind spot reproduces instead of being described.
+
+**A slow-drain rule that reads only the ledger.** `slowDrainsDominant`: inside the 72 hours after the first payment to a new payee, the sum rule must hold, the payee must have taken at least 80% of everything the wallet paid in those hours, there must be two or more payments, and the amounts must vary (a subscription pays the same amount each time; a drain escalates). No chain read, so it costs nothing to run hourly. Against the planted slow drains: 10 of 10 on the baseline run with one false alarm (a stray `x402_micro` burst), 9 of 10 on the hot run with one false alarm; 90% precision either way. On the live ledger, read-only, it keeps 44 of the 156 windows the sum rule opens over the whole history (5 of 25 in the last 30 days), where the balance test kept 130. Those 44 are a list for a person to read, not a detector yet: the largest is three payments of $281,435 in total from one agent to one new address, which is what a treasury move looks like as much as a drain. It is a candidate for the ledger's November release, after that reading.
+
+| candidate | baseline run (seed 20261010) | hot run (half the wallets hot, seed 20261011) |
+|---|---|---|
+| slow drain, sum rule alone | 25 of 25 drains and 10 of 10 slow drains, 15 false alarms (62.5%) | 25 of 25 and 9 of 9, 9 false alarms (73.5%) |
+| slow drain, left near empty (chain read) | 25 of 25 and 10 of 10, 4 false alarms (86.2%) | 25 of 25 and 9 of 9, 3 false alarms (89.3%) |
+| slow drain, dominant share of outflow (no chain read) | 10 of 10, 1 false alarm (90.9%) | 9 of 10, 1 false alarm (90.0%) |
+
+The live drain rule itself raised fewer false alarms on the hot run (6, 80.6%) than on the baseline (11, 69.4%): a hot wallet's one-off purchase is funded just before it and is less often five times its previous largest payment. That is a property of this generator's hot model, not a measurement of the chain.
 
 ## Differences from AMLSim worth knowing
 
